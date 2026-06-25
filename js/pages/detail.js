@@ -11,10 +11,13 @@ const DetailPage = {
   async init() {
     Header.mount();
     Footer.mount();
+    ScrollToTop.mount();
 
     const slug = Utils.getQueryParam("slug");
     if (!slug) {
-      this._renderNotFound("Thiếu thông tin phim. Vui lòng quay lại trang chủ.");
+      this._renderNotFound(
+        "Thiếu thông tin phim. Vui lòng quay lại trang chủ.",
+      );
       return;
     }
 
@@ -31,7 +34,10 @@ const DetailPage = {
   _renderSEO() {
     const m = this.movie;
     const pageTitle = `${m.name} (${m.year || ""}) - Xem Phim Vietsub Online - ${CONFIG.SITE.NAME}`;
-    const pageDesc = (m.content || `Xem phim ${m.name} - ${m.originName || ""} vietsub, thuyết minh chất lượng cao.`).slice(0, 160);
+    const pageDesc = (
+      m.content ||
+      `Xem phim ${m.name} - ${m.originName || ""} vietsub, thuyết minh chất lượng cao.`
+    ).slice(0, 160);
     const ogImage = m.posterUrl || m.thumbUrl;
 
     document.title = pageTitle;
@@ -97,7 +103,12 @@ const DetailPage = {
           <div class="detail-credit">
             <div><b>Quốc gia</b><span>${(m.country || []).map((c) => c.name).join(", ") || "Đang cập nhật"}</span></div>
             <div><b>Đạo diễn</b><span>${(m.director || []).filter((d) => d && d !== "Đang cập nhật").join(", ") || "Đang cập nhật"}</span></div>
-            <div><b>Diễn viên</b><span>${(m.actor || []).filter((a) => a && a !== "Đang cập nhật").slice(0, 6).join(", ") || "Đang cập nhật"}</span></div>
+            <div><b>Diễn viên</b><span>${
+              (m.actor || [])
+                .filter((a) => a && a !== "Đang cập nhật")
+                .slice(0, 6)
+                .join(", ") || "Đang cập nhật"
+            }</span></div>
           </div>
 
           <div class="detail-actions">
@@ -114,7 +125,11 @@ const DetailPage = {
   _renderEpisodes() {
     const m = this.movie;
     const section = document.getElementById("episode-section");
-    if (!m.servers || !m.servers.length || !m.servers.some((s) => s.items.length)) {
+    if (
+      !m.servers ||
+      !m.servers.length ||
+      !m.servers.some((s) => s.items.length)
+    ) {
       section.innerHTML = "";
       return;
     }
@@ -125,7 +140,8 @@ const DetailPage = {
         <div class="server-tabs" id="detail-server-tabs">
           ${m.servers
             .map(
-              (s, i) => `<button class="server-tab ${i === 0 ? "active" : ""}" data-index="${i}">${Utils.escapeHtml(s.serverName)}</button>`
+              (s, i) =>
+                `<button class="server-tab ${i === 0 ? "active" : ""}" data-index="${i}">${Utils.escapeHtml(s.serverName)}</button>`,
             )
             .join("")}
         </div>
@@ -136,7 +152,9 @@ const DetailPage = {
 
     section.querySelectorAll(".server-tab").forEach((tab) => {
       tab.addEventListener("click", () => {
-        section.querySelectorAll(".server-tab").forEach((t) => t.classList.remove("active"));
+        section
+          .querySelectorAll(".server-tab")
+          .forEach((t) => t.classList.remove("active"));
         tab.classList.add("active");
         this._renderEpisodeGrid(Number(tab.dataset.index));
       });
@@ -156,7 +174,7 @@ const DetailPage = {
         (ep) => `
         <a class="episode-item" href="watch.html?slug=${encodeURIComponent(m.slug)}&server=${serverIndex}&ep=${encodeURIComponent(ep.slug)}">
           ${Utils.escapeHtml(ep.name)}
-        </a>`
+        </a>`,
       )
       .join("");
   },

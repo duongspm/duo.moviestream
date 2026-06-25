@@ -14,6 +14,7 @@ const WatchPage = {
   async init() {
     Header.mount();
     Footer.mount();
+    ScrollToTop.mount();
 
     const slug = Utils.getQueryParam("slug");
     if (!slug) {
@@ -28,8 +29,13 @@ const WatchPage = {
       return;
     }
 
-    if (!this.movie.servers?.length || !this.movie.servers.some((s) => s.items.length)) {
-      this._fatalError("Phim này hiện chưa có nguồn phát. Vui lòng quay lại sau.");
+    if (
+      !this.movie.servers?.length ||
+      !this.movie.servers.some((s) => s.items.length)
+    ) {
+      this._fatalError(
+        "Phim này hiện chưa có nguồn phát. Vui lòng quay lại sau.",
+      );
       return;
     }
 
@@ -37,7 +43,9 @@ const WatchPage = {
     const serverFromUrl = Number(Utils.getQueryParam("server"));
     const epSlugFromUrl = Utils.getQueryParam("ep");
 
-    this.serverIndex = this.movie.servers[serverFromUrl]?.items.length ? serverFromUrl : 0;
+    this.serverIndex = this.movie.servers[serverFromUrl]?.items.length
+      ? serverFromUrl
+      : 0;
     const items = this.movie.servers[this.serverIndex].items;
     const epIdx = items.findIndex((e) => e.slug === epSlugFromUrl);
     this.episodeIndex = epIdx >= 0 ? epIdx : 0;
@@ -76,7 +84,7 @@ const WatchPage = {
         ${m.servers
           .map(
             (s, i) =>
-              `<button class="${i === this.serverIndex ? "active" : ""}" data-server="${i}" ${!s.items.length ? "disabled title='Server không có dữ liệu'" : ""}>${Utils.escapeHtml(s.serverName)}</button>`
+              `<button class="${i === this.serverIndex ? "active" : ""}" data-server="${i}" ${!s.items.length ? "disabled title='Server không có dữ liệu'" : ""}>${Utils.escapeHtml(s.serverName)}</button>`,
           )
           .join("")}
       </div>
@@ -85,24 +93,28 @@ const WatchPage = {
         <span class="switch ${this.autoNextEnabled ? "on" : ""}" id="autonext-switch"></span>
       </label>`;
 
-    toolbar.querySelectorAll("#server-switch button:not(:disabled)").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const newServer = Number(btn.dataset.server);
-        if (newServer === this.serverIndex) return;
-        this.serverIndex = newServer;
-        this.episodeIndex = 0;
-        this._renderToolbar();
-        this._renderTitleBlock();
-        this._renderSidebar();
-        this._loadEpisode();
+    toolbar
+      .querySelectorAll("#server-switch button:not(:disabled)")
+      .forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const newServer = Number(btn.dataset.server);
+          if (newServer === this.serverIndex) return;
+          this.serverIndex = newServer;
+          this.episodeIndex = 0;
+          this._renderToolbar();
+          this._renderTitleBlock();
+          this._renderSidebar();
+          this._loadEpisode();
+        });
       });
-    });
 
-    document.getElementById("autonext-switch").addEventListener("click", (e) => {
-      this.autoNextEnabled = !this.autoNextEnabled;
-      e.target.classList.toggle("on", this.autoNextEnabled);
-      if (!this.autoNextEnabled) this._clearAutoNextOverlay();
-    });
+    document
+      .getElementById("autonext-switch")
+      .addEventListener("click", (e) => {
+        this.autoNextEnabled = !this.autoNextEnabled;
+        e.target.classList.toggle("on", this.autoNextEnabled);
+        if (!this.autoNextEnabled) this._clearAutoNextOverlay();
+      });
   },
 
   _renderSidebar() {
@@ -114,7 +126,7 @@ const WatchPage = {
         ${items
           .map(
             (ep, i) =>
-              `<button class="ep-list-item ${i === this.episodeIndex ? "current" : ""}" data-ep="${i}">${Utils.escapeHtml(ep.name.replace(/^Tập\s*/i, ""))}</button>`
+              `<button class="ep-list-item ${i === this.episodeIndex ? "current" : ""}" data-ep="${i}">${Utils.escapeHtml(ep.name.replace(/^Tập\s*/i, ""))}</button>`,
           )
           .join("")}
       </div>`;
@@ -130,8 +142,12 @@ const WatchPage = {
   },
 
   _afterEpisodeChange() {
-    document.querySelectorAll(".ep-list-item").forEach((b) => b.classList.remove("current"));
-    document.querySelector(`.ep-list-item[data-ep="${this.episodeIndex}"]`)?.classList.add("current");
+    document
+      .querySelectorAll(".ep-list-item")
+      .forEach((b) => b.classList.remove("current"));
+    document
+      .querySelector(`.ep-list-item[data-ep="${this.episodeIndex}"]`)
+      ?.classList.add("current");
     this._renderTitleBlock();
     this._loadEpisode();
     this._syncUrl();
@@ -140,7 +156,11 @@ const WatchPage = {
 
   _syncUrl() {
     const ep = this._currentEpisode();
-    Utils.setQueryParams({ slug: this.movie.slug, server: this.serverIndex, ep: ep.slug });
+    Utils.setQueryParams({
+      slug: this.movie.slug,
+      server: this.serverIndex,
+      ep: ep.slug,
+    });
   },
 
   _loadEpisode() {
@@ -151,7 +171,9 @@ const WatchPage = {
   },
 
   _hasNextEpisode() {
-    return this.episodeIndex < this.movie.servers[this.serverIndex].items.length - 1;
+    return (
+      this.episodeIndex < this.movie.servers[this.serverIndex].items.length - 1
+    );
   },
 
   _goNextEpisode() {
@@ -166,7 +188,8 @@ const WatchPage = {
   },
 
   _showAutoNextOverlay() {
-    const nextEp = this.movie.servers[this.serverIndex].items[this.episodeIndex + 1];
+    const nextEp =
+      this.movie.servers[this.serverIndex].items[this.episodeIndex + 1];
     const wrap = document.getElementById("player-wrap");
     let seconds = CONFIG.PLAYER.AUTO_NEXT_COUNTDOWN;
     const circumference = 2 * Math.PI * 28;
@@ -193,15 +216,21 @@ const WatchPage = {
     wrap.appendChild(overlay);
 
     const progressCircle = overlay.querySelector(".progress");
-    document.getElementById("autonext-now").addEventListener("click", () => this._goNextEpisode());
-    document.getElementById("autonext-cancel").addEventListener("click", () => this._clearAutoNextOverlay());
+    document
+      .getElementById("autonext-now")
+      .addEventListener("click", () => this._goNextEpisode());
+    document
+      .getElementById("autonext-cancel")
+      .addEventListener("click", () => this._clearAutoNextOverlay());
 
     this.autoNextTimer = setInterval(() => {
       seconds -= 1;
       const secEl = document.getElementById("autonext-seconds");
       if (secEl) secEl.textContent = seconds;
-      const offset = circumference * (1 - seconds / CONFIG.PLAYER.AUTO_NEXT_COUNTDOWN);
-      if (progressCircle) progressCircle.setAttribute("stroke-dashoffset", offset);
+      const offset =
+        circumference * (1 - seconds / CONFIG.PLAYER.AUTO_NEXT_COUNTDOWN);
+      if (progressCircle)
+        progressCircle.setAttribute("stroke-dashoffset", offset);
       if (seconds <= 0) {
         clearInterval(this.autoNextTimer);
         this._goNextEpisode();

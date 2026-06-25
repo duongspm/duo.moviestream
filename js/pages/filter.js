@@ -23,6 +23,7 @@ const FilterPage = {
   async init() {
     Header.mount();
     Footer.mount();
+    ScrollToTop.mount();
 
     this._readStateFromUrl();
     await this._loadFilterOptions();
@@ -64,10 +65,14 @@ const FilterPage = {
       [CONFIG.API.TYPE_LIST.TV_SHOWS]: "TV Shows",
       [CONFIG.API.TYPE_LIST.PHIM_CHIEU_RAP]: "Phim Chiếu Rạp",
     };
-    document.getElementById("filter-title").textContent = titleMap[this.state.type] || "Danh Sách Phim";
+    document.getElementById("filter-title").textContent =
+      titleMap[this.state.type] || "Danh Sách Phim";
     document.title = `${titleMap[this.state.type] || "Danh sách phim"} - ${CONFIG.SITE.NAME}`;
 
-    const yearOptions = Array.from({ length: 2026 - 1970 + 1 }, (_, i) => 2026 - i);
+    const yearOptions = Array.from(
+      { length: 2026 - 1970 + 1 },
+      (_, i) => 2026 - i,
+    );
 
     const bar = document.getElementById("filter-bar");
     bar.innerHTML = `
@@ -160,7 +165,11 @@ const FilterPage = {
       if (this.state.type === "phim-moi-cap-nhat") {
         result = await movieService.getNewest(this.state.page);
       } else {
-        result = await movieService.getListByType(this.state.type, filters, this.state.page);
+        result = await movieService.getListByType(
+          this.state.type,
+          filters,
+          this.state.page,
+        );
       }
 
       const valid = result.items.filter(Boolean);
@@ -177,7 +186,10 @@ const FilterPage = {
 
       window.scrollTo({ top: 0, behavior: "instant" });
     } catch (err) {
-      grid.innerHTML = Utils.errorBlock(err.message || "Không thể tải danh sách phim.", () => this._loadList());
+      grid.innerHTML = Utils.errorBlock(
+        err.message || "Không thể tải danh sách phim.",
+        () => this._loadList(),
+      );
       info.textContent = "";
     }
   },
@@ -204,10 +216,14 @@ const FilterPage = {
 
     let html = "";
     html += btn("‹", currentPage - 1, { disabled: currentPage <= 1 });
-    if (start > 1) html += btn("1", 1) + (start > 2 ? `<span class="page-ellipsis">…</span>` : "");
+    if (start > 1)
+      html +=
+        btn("1", 1) + (start > 2 ? `<span class="page-ellipsis">…</span>` : "");
     pages.forEach((p) => (html += btn(p, p, { active: p === currentPage })));
     if (end < totalPages)
-      html += (end < totalPages - 1 ? `<span class="page-ellipsis">…</span>` : "") + btn(totalPages, totalPages);
+      html +=
+        (end < totalPages - 1 ? `<span class="page-ellipsis">…</span>` : "") +
+        btn(totalPages, totalPages);
     html += btn("›", currentPage + 1, { disabled: currentPage >= totalPages });
 
     container.innerHTML = html;

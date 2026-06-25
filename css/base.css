@@ -241,3 +241,85 @@ ul, ol {
   overflow: hidden;
   clip: rect(0 0 0 0);
 }
+
+/* ---------- NÚT SCROLL TO TOP TIẾN ĐỘ ---------- */
+.scroll-to-top {
+  position: fixed;
+  bottom: var(--space-md);
+  right: var(--space-md);
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  z-index: 99; /* Đảm bảo nằm trên footer và sidebar */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(10px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+}
+
+/* Hiển thị mượt mà khi được kích hoạt */
+.scroll-to-top.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Định dạng vòng tròn SVG */
+.progress-circle {
+  position: absolute;
+  inset: -1px;
+  transform: rotate(-90deg); /* Quay góc để tiến độ chạy từ đỉnh đỉnh đầu chạy xuống */
+}
+
+.progress-bg {
+  stroke: var(--bg-surface-2);
+}
+
+.progress-bar {
+  stroke: var(--accent-red); /* Màu đỏ rạp chiếu cho đường tiến độ */
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+/* Biểu tượng mũi tên */
+.arrow-icon {
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+}
+
+/* Hiển thị số % khi hover */
+.progress-text {
+  position: absolute;
+  font-size: var(--fs-tiny);
+  font-weight: 700;
+  color: var(--accent-gold); /* Màu vàng neon nổi bật số % */
+  opacity: 0;
+  transform: scale(0.8);
+  transition: var(--transition-fast);
+}
+
+/* Hiệu ứng Hover: Ẩn mũi tên, Hiện số phần trăm */
+.scroll-to-top:hover {
+  border-color: var(--accent-gold-dim);
+  background: var(--bg-surface-2);
+}
+
+.scroll-to-top:hover .arrow-icon {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.scroll-to-top:hover .progress-text {
+  opacity: 1;
+  transform: scale(1);
+}

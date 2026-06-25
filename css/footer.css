@@ -55,32 +55,41 @@
 @media (max-width: 768px) {
   .footer-inner { grid-template-columns: 1fr; gap: var(--space-md); text-align: left; }
 }
-#analytics-counter {
+/* ---------- Bộ đếm lượt truy cập vệ tinh ---------- */
+.analytics-counter {
   display: flex;
-  gap: var(--space-md);
+  gap: var(--space-sm);
   justify-content: center;
   align-items: center;
-  margin-top: var(--space-md);
+  margin-top: var(--space-sm);
   flex-wrap: wrap;
 }
 
+.counter-loading {
+  font-size: var(--fs-tiny);
+  color: var(--text-tertiary);
+  opacity: 0.6;
+}
+
 .counter-item {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  padding: 6px 14px;
-  border-radius: 20px;
-  font-size: 0.85rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-tiny);
   color: var(--text-secondary);
-  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  transition: var(--transition-fast);
 }
 
 .counter-item:hover {
-  background: rgba(229, 9, 20, 0.1); /* Chuyển đỏ mờ khi hover */
-  border-color: var(--accent-red);
+  border-color: var(--accent-red-dim);
+  background: rgba(224, 38, 63, 0.05);
 }
 
 .counter-item span {
-  color: var(--accent-gold); /* Số hiển thị màu vàng nổi bật */
-  font-weight: bold;
+  color: var(--accent-gold);
+  font-weight: 700;
   margin-left: 4px;
 }

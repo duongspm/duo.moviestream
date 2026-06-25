@@ -13,6 +13,7 @@ const SearchPage = {
   async init() {
     Header.mount();
     Footer.mount();
+    ScrollToTop.mount();
 
     this.state.keyword = Utils.getQueryParam("keyword") || "";
     this.state.page = Number(Utils.getQueryParam("page")) || 1;
@@ -20,15 +21,17 @@ const SearchPage = {
     const input = document.getElementById("search-page-input");
     input.value = this.state.keyword;
 
-    document.getElementById("search-page-form").addEventListener("submit", (e) => {
-      e.preventDefault();
-      const kw = input.value.trim();
-      if (!kw) return;
-      this.state.keyword = kw;
-      this.state.page = 1;
-      Utils.setQueryParams({ keyword: kw, page: "" });
-      this._search();
-    });
+    document
+      .getElementById("search-page-form")
+      .addEventListener("submit", (e) => {
+        e.preventDefault();
+        const kw = input.value.trim();
+        if (!kw) return;
+        this.state.keyword = kw;
+        this.state.page = 1;
+        Utils.setQueryParams({ keyword: kw, page: "" });
+        this._search();
+      });
 
     if (this.state.keyword) {
       this._search();
@@ -51,7 +54,11 @@ const SearchPage = {
     grid.innerHTML = Utils.skeletonCards(12);
 
     try {
-      const result = await movieService.search(this.state.keyword, {}, this.state.page);
+      const result = await movieService.search(
+        this.state.keyword,
+        {},
+        this.state.page,
+      );
       const valid = result.items.filter(Boolean);
       grid.innerHTML = MovieCard.renderList(valid);
       Utils.initLazyImages(grid);
@@ -61,10 +68,15 @@ const SearchPage = {
         info.innerHTML = `Tìm thấy <b>${result.pagination.totalItems || valid.length}</b> phim phù hợp`;
         this._renderPagination(result.pagination);
       } else {
-        info.textContent = valid.length ? `Tìm thấy ${valid.length} phim phù hợp` : "";
+        info.textContent = valid.length
+          ? `Tìm thấy ${valid.length} phim phù hợp`
+          : "";
       }
     } catch (err) {
-      grid.innerHTML = Utils.errorBlock(err.message || "Lỗi khi tìm kiếm.", () => this._search());
+      grid.innerHTML = Utils.errorBlock(
+        err.message || "Lỗi khi tìm kiếm.",
+        () => this._search(),
+      );
     }
   },
 

@@ -212,7 +212,12 @@
    ============================================================ */
 @media (max-width: 900px) {
   .nav-desktop { display: none; }
-  .menu-toggle { display: flex; }
+  .menu-toggle { display: flex; 
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    z-index: 999;  
+  }
   .search-box { width: 200px; }
 }
 
@@ -233,11 +238,13 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height var(--transition-base);
+    transition: all .2s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
   .nav-mobile.open {
     display: flex;
     max-height: 70vh;
     overflow-y: auto;
+    transition: all .2s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
   .nav-mobile a {
     padding: 0.9rem var(--space-md);

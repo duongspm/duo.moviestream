@@ -217,6 +217,20 @@
     top: 70px;
     right: 20px;
     z-index: 999;  
+    background: var(--accent-red);
+    border-radius: 8px;
+  }
+  .menu-toggle svg line{
+    transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+  .menu-toggle.active svg line:nth-child(2){
+    opacity: 0;
+  }
+  .menu-toggle.active svg line:nth-child(1){
+    transform: translateX(4px) rotate(30deg);
+  }
+  .menu-toggle.active svg line:nth-child(3){
+    transform: translate(-8px, 1px) rotate(-30deg)
   }
   .search-box { width: 200px; }
 }

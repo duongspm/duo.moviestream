@@ -245,78 +245,75 @@ ul, ol {
 /* ---------- NÚT SCROLL TO TOP TIẾN ĐỘ ---------- */
 .scroll-to-top {
   position: fixed;
-  bottom: var(--space-md);
-  right: var(--space-md);
+  bottom: var(--space-md, 1.4rem);
+  right: var(--space-md, 1.4rem);
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  background: var(--bg-surface);
-  border: 1px solid var(--border-subtle);
-  z-index: 99; /* Đảm bảo nằm trên footer và sidebar */
+  background: var(--bg-surface, #15161c);
+  border: 1px solid var(--border-subtle, #1d1e26);
+  z-index: 999; /* Đẩy lên cao hẳn để không bị các phần tử khác đè */
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(10px);
+  transform: translateY(15px);
   transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
 }
 
-/* Hiển thị mượt mà khi được kích hoạt */
+/* Thêm class này khi cuộn xuống */
 .scroll-to-top.visible {
   opacity: 1;
   visibility: visible;
   transform: translateY(0);
 }
 
-/* Định dạng vòng tròn SVG */
 .progress-circle {
   position: absolute;
   inset: -1px;
-  transform: rotate(-90deg); /* Quay góc để tiến độ chạy từ đỉnh đỉnh đầu chạy xuống */
+  transform: rotate(-90deg); /* Quay góc để tiến độ chạy từ đỉnh đầu */
 }
 
 .progress-bg {
-  stroke: var(--bg-surface-2);
+  stroke: var(--bg-surface-2, #1d1e26);
 }
 
 .progress-bar {
-  stroke: var(--accent-red); /* Màu đỏ rạp chiếu cho đường tiến độ */
+  stroke: var(--accent-red, #e0263f); /* Màu đỏ rạp phim */
   stroke-linecap: round;
-  transition: stroke-dashoffset 0.1s linear;
+  transition: stroke-dashoffset 0.05s linear;
 }
 
-/* Biểu tượng mũi tên */
 .arrow-icon {
-  color: var(--text-primary);
+  color: var(--text-primary, #f4f4f6);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: var(--transition-fast);
+  transition: opacity 0.2s, transform 0.2s;
 }
 
-/* Hiển thị số % khi hover */
 .progress-text {
   position: absolute;
-  font-size: var(--fs-tiny);
+  font-size: var(--fs-tiny, 0.72rem);
   font-weight: 700;
-  color: var(--accent-gold); /* Màu vàng neon nổi bật số % */
+  color: var(--accent-gold, #f3c44d); /* Số % màu vàng neon */
   opacity: 0;
   transform: scale(0.8);
-  transition: var(--transition-fast);
+  transition: opacity 0.2s, transform 0.2s;
 }
 
-/* Hiệu ứng Hover: Ẩn mũi tên, Hiện số phần trăm */
+/* Hiệu ứng Hover */
 .scroll-to-top:hover {
-  border-color: var(--accent-gold-dim);
-  background: var(--bg-surface-2);
+  background: var(--bg-surface-2, #1d1e26);
+  border-color: var(--accent-gold, #f3c44d);
 }
 
 .scroll-to-top:hover .arrow-icon {
   opacity: 0;
-  transform: translateY(-5px);
+  transform: translateY(-4px);
 }
 
 .scroll-to-top:hover .progress-text {

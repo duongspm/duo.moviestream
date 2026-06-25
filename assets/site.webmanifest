@@ -1,6 +1,6 @@
 {
-  "name": "Duo.MovieStream - Xem Phim Online",
-  "short_name": "Duo.MovieStream",
+  "name": "Duoflix - Xem Phim Online",
+  "short_name": "Duoflix",
   "description": "Xem phim online Vietsub, Thuyết Minh, Lồng Tiếng chất lượng cao - cập nhật liên tục",
   "icons": [
     { "src": "/favicon-96x96.png", "sizes": "96x96", "type": "image/png" },

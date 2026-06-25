@@ -65,11 +65,11 @@ const CONFIG = {
   // 2. THÔNG TIN WEBSITE
   // ----------------------------------------------------------
   SITE: {
-    NAME: "Duo.MovieStream",
+    NAME: "Duoflix",
     DESCRIPTION:
       "Vùng đất cứu rỗi những chiếc deadline. Xem phim online không quảng cáo, không 'nhà tôi 3 đời', load nhanh hơn cách người yêu cũ trở mặt! | Xem phim online chất lượng cao, cập nhật nhanh nhất - Vietsub, Thuyết minh, Lồng tiếng",
-    LOGO_TEXT: "DUO.MOVIE",
-    LOGO_ACCENT: "STREAM",
+    LOGO_TEXT: "DUO",
+    LOGO_ACCENT: "FLIX",
   },
 
   // ----------------------------------------------------------

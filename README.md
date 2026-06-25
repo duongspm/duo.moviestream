@@ -1,4 +1,4 @@
-# 🎬 Duo.MovieStream — Website Xem Phim Online (Vanilla JS)
+# 🎬 Duoflix — Website Xem Phim Online (Vanilla JS)
 
 Website xem phim trực tuyến **không tự host video** — toàn bộ dữ liệu phim và link
 phát (HLS/m3u8, iframe embed) được fetch từ nguồn API phim bên thứ ba (mặc định:
@@ -132,7 +132,7 @@ Sau đó mở `http://localhost:8080`.
 # 2. Trong thư mục movie-site:
 git init
 git add .
-git commit -m "Initial commit: Duo.MovieStream website"
+git commit -m "Initial commit: Duoflix website"
 git branch -M main
 git remote add origin https://github.com/<username>/movie-stream.git
 git push -u origin main

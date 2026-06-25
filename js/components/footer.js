@@ -15,7 +15,7 @@ const Footer = {
         <div class="footer-inner">
           <div class="footer-brand">
             <a href="index.html" class="logo">
-              <span class="logo-main"><span class="logo-accent">DUO</span>${CONFIG.SITE.LOGO_TEXT}</span><span class="logo-accent">${CONFIG.SITE.LOGO_ACCENT}</span>
+              <span class="logo-main">${CONFIG.SITE.LOGO_TEXT}</span><span class="logo-accent">${CONFIG.SITE.LOGO_ACCENT}</span>
             </a>
             <p class="footer-desc">${CONFIG.SITE.DESCRIPTION}</p>
           </div>
@@ -36,7 +36,7 @@ const Footer = {
         </div>
 
         <div class="footer-bottom">
-          <p>Duo© ${year} ${CONFIG.SITE.LOGO_TEXT}${CONFIG.SITE.LOGO_ACCENT}. Dữ liệu phim chỉ mang tính chất tổng hợp, không thuộc quyền sở hữu của website.</p>
+          <p>© ${year} ${CONFIG.SITE.LOGO_TEXT}${CONFIG.SITE.LOGO_ACCENT}. Dữ liệu phim chỉ mang tính chất tổng hợp, không thuộc quyền sở hữu của website.</p>
         </div>
       </footer>`;
   },

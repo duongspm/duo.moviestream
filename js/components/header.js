@@ -15,7 +15,7 @@ const Header = {
       <header class="header" id="header">
         <div class="header-inner">
           <a href="index.html" class="logo">
-            <span class="logo-main"><span class="logo-accent">DUO</span>${CONFIG.SITE.LOGO_TEXT}</span><span class="logo-accent">${CONFIG.SITE.LOGO_ACCENT}</span>
+            <span class="logo-main">${CONFIG.SITE.LOGO_TEXT}</span><span class="logo-accent">${CONFIG.SITE.LOGO_ACCENT}</span>
           </a>
 
           <nav class="nav-desktop">

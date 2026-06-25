@@ -21,13 +21,13 @@ const CONFIG = {
   // ----------------------------------------------------------
   API: {
     // Domain gốc cung cấp dữ liệu phim (KKPhim / Ophim đều tương thích)
-    BASE_URL: "http://localhost:9090",
+    BASE_URL: "https://phimapi.com",
 
     // Domain dùng để chuyển ảnh sang .webp giúp tải nhanh hơn (tối ưu SEO/Lighthouse)
     IMAGE_OPTIMIZE_URL: "https://phimapi.com/image.php?url=",
 
     // Có bật tối ưu ảnh sang webp hay không
-    ENABLE_IMAGE_OPTIMIZE: false,
+    ENABLE_IMAGE_OPTIMIZE: true,
 
     // Danh sách endpoint - KHÔNG cần đổi nếu vẫn dùng chuẩn KKPhim/Ophim
     ENDPOINTS: {
@@ -65,7 +65,7 @@ const CONFIG = {
   // 2. THÔNG TIN WEBSITE
   // ----------------------------------------------------------
   SITE: {
-    NAME: "DuoMovieStream",
+    NAME: "MovieStream",
     DESCRIPTION:
       "Xem phim online chất lượng cao, cập nhật nhanh nhất - Vietsub, Thuyết minh, Lồng tiếng",
     LOGO_TEXT: "MOVIE",

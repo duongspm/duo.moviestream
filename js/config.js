@@ -67,7 +67,7 @@ const CONFIG = {
   SITE: {
     NAME: "Duo.MovieStream",
     DESCRIPTION:
-      "Xem phim online chất lượng cao, cập nhật nhanh nhất - Vietsub, Thuyết minh, Lồng tiếng",
+      "Vùng đất cứu rỗi những chiếc deadline. Xem phim online không quảng cáo, không 'nhà tôi 3 đời', load nhanh hơn cách người yêu cũ trở mặt! | Xem phim online chất lượng cao, cập nhật nhanh nhất - Vietsub, Thuyết minh, Lồng tiếng",
     LOGO_TEXT: "DUO.MOVIE",
     LOGO_ACCENT: "STREAM",
   },

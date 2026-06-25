@@ -1,14 +1,42 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Tìm Kiếm Phim - MovieStream</title>
+  <title>Tìm Kiếm Phim - Duo.MovieStream</title>
   <meta name="robots" content="noindex, follow" />
+
+  <!-- ===== Favicon & App Icons ===== -->
+  <link rel="icon" href="assets/favicon.ico" sizes="any" />
+  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="48x48" href="assets/favicon-48x48.png" />
+  <link rel="icon" type="image/png" sizes="96x96" href="assets/favicon-96x96.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="assets/favicon-180x180.png" />
+  <link rel="mask-icon" href="assets/safari-pinned-tab.svg" color="#e0263f" />
+  <link rel="manifest" href="assets/site.webmanifest" />
+  <meta name="theme-color" content="#060608" />
+
+  <!-- ===== Open Graph / SEO xã hội ===== -->
+  <meta property="og:title" content="Tìm Kiếm Phim - Duo.MovieStream" />
+  <meta property="og:description" content="Tìm kiếm phim nhanh theo tên - Vietsub, Thuyết minh, Lồng tiếng." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/ogp-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:locale" content="vi_VN" />
+  <meta property="og:site_name" content="Duo.MovieStream" />
+
+  <!-- ===== Twitter Card ===== -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tìm Kiếm Phim - Duo.MovieStream" />
+  <meta name="twitter:image" content="assets/ogp-image.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
 
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/base.css" />
@@ -17,6 +45,7 @@
   <link rel="stylesheet" href="css/filter.css" />
   <link rel="stylesheet" href="css/footer.css" />
 </head>
+
 <body>
 
   <div id="site-header"></div>
@@ -28,12 +57,8 @@
       </div>
 
       <form id="search-page-form" class="filter-bar" style="gap:0.6rem;">
-        <input
-          id="search-page-input"
-          type="text"
-          placeholder="Nhập tên phim cần tìm..."
-          style="flex:1; min-width:200px; background:var(--bg-surface-2); padding:0.6rem 1rem; border-radius:var(--radius-sm); color:var(--text-primary); border:1px solid var(--border-subtle);"
-        />
+        <input id="search-page-input" type="text" placeholder="Nhập tên phim cần tìm..."
+          style="flex:1; min-width:200px; background:var(--bg-surface-2); padding:0.6rem 1rem; border-radius:var(--radius-sm); color:var(--text-primary); border:1px solid var(--border-subtle);" />
         <button type="submit" class="btn btn-primary">Tìm kiếm</button>
       </form>
 
@@ -58,4 +83,5 @@
 
   <script src="js/pages/search.js"></script>
 </body>
+
 </html>

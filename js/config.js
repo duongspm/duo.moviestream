@@ -65,10 +65,10 @@ const CONFIG = {
   // 2. THÔNG TIN WEBSITE
   // ----------------------------------------------------------
   SITE: {
-    NAME: "MovieStream",
+    NAME: "Duo.MovieStream",
     DESCRIPTION:
       "Xem phim online chất lượng cao, cập nhật nhanh nhất - Vietsub, Thuyết minh, Lồng tiếng",
-    LOGO_TEXT: "MOVIE",
+    LOGO_TEXT: "DUO.MOVIE",
     LOGO_ACCENT: "STREAM",
   },
 

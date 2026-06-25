@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <defs>
+    <linearGradient id="dGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ff3b52"/>
+      <stop offset="100%" stop-color="#c91f35"/>
+    </linearGradient>
+  </defs>
+  <path d="
+    M 58 40
+    Q 58 36 62 36
+    L 100 36
+    C 146 36 174 62 174 100
+    C 174 138 146 164 100 164
+    L 62 164
+    Q 58 164 58 160
+    Z
+  " fill="url(#dGrad)"/>
+  <path d="
+    M 86 64
+    L 86 136
+    L 100 136
+    C 128 136 146 120 146 100
+    C 146 80 128 64 100 64
+    Z
+  " fill="#0d0e12"/>
+  <path d="M 100 78 L 134 100 L 100 122 Z" fill="#f3c44d"/>
+</svg>

@@ -30,14 +30,25 @@ const DetailPage = {
 
   _renderSEO() {
     const m = this.movie;
-    document.title = `${m.name} (${m.year || ""}) - Xem Phim Vietsub Online - ${CONFIG.SITE.NAME}`;
+    const pageTitle = `${m.name} (${m.year || ""}) - Xem Phim Vietsub Online - ${CONFIG.SITE.NAME}`;
+    const pageDesc = (m.content || `Xem phim ${m.name} - ${m.originName || ""} vietsub, thuyết minh chất lượng cao.`).slice(0, 160);
+    const ogImage = m.posterUrl || m.thumbUrl;
+
+    document.title = pageTitle;
+
+    const setMeta = (id, attr, value) => {
+      const el = document.getElementById(id);
+      if (el) el.setAttribute(attr, value);
+    };
+
+    setMeta("og-title", "content", pageTitle);
+    setMeta("og-description", "content", pageDesc);
+    setMeta("og-image", "content", ogImage);
+    setMeta("twitter-title", "content", pageTitle);
+    setMeta("twitter-image", "content", ogImage);
+
     const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) {
-      metaDesc.setAttribute(
-        "content",
-        (m.content || `Xem phim ${m.name} - ${m.originName || ""} vietsub, thuyết minh chất lượng cao.`).slice(0, 160)
-      );
-    }
+    if (metaDesc) metaDesc.setAttribute("content", pageDesc);
   },
 
   _renderContent() {

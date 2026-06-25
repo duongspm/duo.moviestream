@@ -1,4 +1,4 @@
-# 🎬 MovieStream — Website Xem Phim Online (Vanilla JS)
+# 🎬 Duo.MovieStream — Website Xem Phim Online (Vanilla JS)
 
 Website xem phim trực tuyến **không tự host video** — toàn bộ dữ liệu phim và link
 phát (HLS/m3u8, iframe embed) được fetch từ nguồn API phim bên thứ ba (mặc định:
@@ -58,7 +58,7 @@ Mọi cấu hình API nằm trong **`js/config.js`**:
 ```js
 const CONFIG = {
   API: {
-    BASE_URL: "https://phimapi.com",   // 👈 Đổi domain tại đây
+    BASE_URL: "https://phimapi.com", // 👈 Đổi domain tại đây
     ENDPOINTS: {
       NEWEST: "/danh-sach/phim-moi-cap-nhat-v3",
       DETAIL: "/phim",
@@ -132,7 +132,7 @@ Sau đó mở `http://localhost:8080`.
 # 2. Trong thư mục movie-site:
 git init
 git add .
-git commit -m "Initial commit: MovieStream website"
+git commit -m "Initial commit: Duo.MovieStream website"
 git branch -M main
 git remote add origin https://github.com/<username>/movie-stream.git
 git push -u origin main
@@ -166,7 +166,36 @@ thêm — chỉ cần kéo-thả thư mục hoặc connect repo.
 
 ---
 
-## 7. Một số giới hạn cần biết
+## 8. Branding (Logo, Favicon, OGP)
+
+Thư mục `assets/` chứa bộ nhận diện thương hiệu hoàn chỉnh, lấy cảm hứng từ
+phong cách Netflix (1 icon chữ cái đơn, đậm, độc lập với wordmark):
+
+- **Logomark**: chữ "D" khối đậm màu đỏ rượu, với tam giác Play màu vàng neon
+  nằm trong phần bụng rỗng — gợi ngay hình ảnh "phát phim" mà không cần thêm
+  icon phụ.
+- `logo.svg` — phiên bản nền trong suốt, dùng trong header/footer (đã tích hợp).
+- `favicon.ico`, `favicon-16x16.png` → `favicon-512x512.png` — đầy đủ kích
+  thước favicon chuẩn cho mọi browser/thiết bị.
+- `safari-pinned-tab.svg` — icon đơn sắc (mask-icon) riêng cho tab ghim Safari.
+- `site.webmanifest` — cấu hình PWA (tên, icon, theme color) khi người dùng
+  "Add to Home Screen" trên mobile.
+- `ogp-image.png` (1200×630) — ảnh hiển thị khi chia sẻ link lên Facebook,
+  Zalo, Twitter/X... Trang `detail.html` tự động đổi ảnh này thành poster
+  phim thật khi chia sẻ link một phim cụ thể (xử lý trong `detail.js`).
+
+Toàn bộ các thẻ `<link rel="icon">`, `<meta property="og:*">`,
+`<meta name="twitter:*">` đã được chèn sẵn vào `<head>` của cả 5 trang HTML —
+không cần làm gì thêm trừ khi bạn muốn đổi logo/ảnh OGP.
+
+### Muốn đổi logo/màu thương hiệu?
+
+File gốc dạng SVG (vector, dễ sửa) nằm trong `assets/logo.svg` — mở bằng bất
+kỳ trình chỉnh sửa SVG (Figma, Illustrator, hoặc sửa trực tiếp mã) rồi render
+lại các size PNG/ICO bằng công cụ bất kỳ (ví dụ
+[realfavicongenerator.net](https://realfavicongenerator.net) cho nhanh).
+
+## 9. Một số giới hạn cần biết
 
 - Nguồn KKPhim là API **công khai miễn phí**, có thể đôi lúc chậm/quá tải hoặc
   đổi cấu trúc mà không báo trước — đây là lý do file `config.js` được thiết kế

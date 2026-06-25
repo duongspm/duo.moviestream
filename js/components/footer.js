@@ -15,6 +15,7 @@ const Footer = {
         <div class="footer-inner">
           <div class="footer-brand">
             <a href="index.html" class="logo">
+              <img src="assets/logo.svg" alt="" class="logo-icon" width="32" height="32" />
               <span class="logo-main">${CONFIG.SITE.LOGO_TEXT}</span><span class="logo-accent">${CONFIG.SITE.LOGO_ACCENT}</span>
             </a>
             <p class="footer-desc">${CONFIG.SITE.DESCRIPTION}</p>

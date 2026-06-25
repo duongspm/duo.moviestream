@@ -1,0 +1,87 @@
+/* ============================================================
+   DESIGN TOKENS — Bảng màu & Typography trung tâm
+   ============================================================
+   Phong cách: "Rạp chiếu lúc tắt đèn" — đen tuyền sâu, ánh đèn
+   chiếu đỏ rượu, điểm nhấn vàng neon dùng thật tiết kiệm cho
+   trạng thái "đang phát / đang nổi bật" để tạo cảm giác khác biệt
+   với mô-típ Netflix đỏ-đen thuần.
+   ============================================================ */
+
+:root {
+  /* ---------- Màu nền (Đen / Xám đậm) ---------- */
+  --bg-void: #060608;          /* đen tuyền nhất, dùng cho <body> */
+  --bg-base: #0d0e12;          /* nền chính các section */
+  --bg-surface: #15161c;       /* nền card, panel */
+  --bg-surface-2: #1d1e26;     /* nền hover / nested panel */
+  --bg-elevated: #23242e;      /* modal, dropdown */
+
+  /* ---------- Màu điểm nhấn ---------- */
+  --accent-red: #e0263f;       /* đỏ rượu — CTA chính, badge, active */
+  --accent-red-dim: #8c1626;   /* đỏ trầm dùng cho border/hover nhẹ */
+  --accent-gold: #f3c44d;      /* vàng neon — rating, "đang phát", hover chữ */
+  --accent-gold-dim: #a4842f;
+
+  /* ---------- Văn bản ---------- */
+  --text-primary: #f4f4f6;
+  --text-secondary: #a6a8b3;
+  --text-tertiary: #6b6d78;
+  --text-on-accent: #0d0e12;
+
+  /* ---------- Đường viền / chia tách ---------- */
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+
+  /* ---------- Gradient tín hiệu (vignette rạp chiếu) ---------- */
+  --gradient-spotlight: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(224, 38, 63, 0.25), transparent 60%);
+  --gradient-fade-bottom: linear-gradient(180deg, transparent 0%, var(--bg-void) 95%);
+  --gradient-fade-left: linear-gradient(90deg, var(--bg-void) 0%, transparent 60%);
+  --gradient-card-overlay: linear-gradient(180deg, transparent 40%, rgba(0, 0, 0, 0.92) 100%);
+
+  /* ---------- Typography ---------- */
+  --font-display: "Anton", "Oswald", sans-serif;     /* tiêu đề lớn, kiểu poster rạp */
+  --font-body: "Inter", -apple-system, sans-serif;    /* nội dung, UI */
+
+  --fs-h1: clamp(2.2rem, 6vw, 4rem);
+  --fs-h2: clamp(1.4rem, 3vw, 1.9rem);
+  --fs-h3: 1.125rem;
+  --fs-body: 0.95rem;
+  --fs-small: 0.82rem;
+  --fs-tiny: 0.72rem;
+
+  /* ---------- Bo góc & khoảng cách ---------- */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  --space-xs: 0.4rem;
+  --space-sm: 0.8rem;
+  --space-md: 1.4rem;
+  --space-lg: 2.4rem;
+  --space-xl: 4rem;
+
+  /* ---------- Layout ---------- */
+  --container-max: 1400px;
+  --header-height: 68px;
+
+  /* ---------- Hiệu ứng ---------- */
+  --transition-fast: 0.18s ease;
+  --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-glow-red: 0 0 24px rgba(224, 38, 63, 0.35);
+  --shadow-glow-gold: 0 0 18px rgba(243, 196, 77, 0.3);
+
+  --z-header: 100;
+  --z-suggest: 90;
+  --z-modal: 200;
+  --z-toast: 300;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tìm Kiếm Phim - DuoMovieStream</title>
+  <meta name="robots" content="noindex, follow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/movie-card.css" />
+  <link rel="stylesheet" href="css/filter.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+</head>
+
+<body>
+
+  <div id="site-header"></div>
+
+  <main class="filter-page">
+    <div class="container">
+      <div class="filter-hero">
+        <h1 id="search-heading">Tìm Kiếm Phim</h1>
+      </div>
+
+      <form id="search-page-form" class="filter-bar" style="gap:0.6rem;">
+        <input id="search-page-input" type="text" placeholder="Nhập tên phim cần tìm..."
+          style="flex:1; min-width:200px; background:var(--bg-surface-2); padding:0.6rem 1rem; border-radius:var(--radius-sm); color:var(--text-primary); border:1px solid var(--border-subtle);" />
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+      </form>
+
+      <p class="filter-results-info" id="search-info"></p>
+
+      <div class="movie-grid" id="search-grid"></div>
+
+      <div class="pagination" id="search-pagination"></div>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/services/httpClient.js"></script>
+  <script src="js/services/movieService.js"></script>
+
+  <script src="js/components/header.js"></script>
+  <script src="js/components/footer.js"></script>
+  <script src="js/components/movieCard.js"></script>
+
+  <script src="js/pages/search.js"></script>
+</body>
+
+</html>

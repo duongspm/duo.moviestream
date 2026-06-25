@@ -1,0 +1,208 @@
+/* ============================================================
+   HERO SLIDER — "Ánh đèn rạp chiếu"
+   ============================================================
+   Signature element của trang chủ: slider toàn màn hình với
+   vignette đỏ rượu chiếu từ trên xuống mô phỏng đèn máy chiếu,
+   poster phim làm nền mờ, thông tin phim nổi bật ở dưới-trái.
+   ============================================================ */
+
+.hero-slider {
+  position: relative;
+  width: 100%;
+  height: min(86vh, 720px);
+  min-height: 420px;
+  overflow: hidden;
+  background: var(--bg-base);
+}
+
+.hero-slider::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-spotlight);
+  z-index: 2;
+  pointer-events: none;
+}
+
+.hero-slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.8s ease;
+}
+.hero-slide.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 1;
+}
+
+.hero-slide-bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 20%;
+  transform: scale(1.05);
+  filter: brightness(0.55);
+}
+
+.hero-slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(6,6,8,0.1) 0%, rgba(6,6,8,0.55) 55%, var(--bg-void) 100%),
+    linear-gradient(90deg, rgba(6,6,8,0.85) 0%, transparent 55%);
+}
+
+.hero-slide-content {
+  position: relative;
+  z-index: 3;
+  max-width: var(--container-max);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: var(--space-xl);
+}
+
+.hero-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--accent-red);
+  color: #fff;
+  font-size: var(--fs-tiny);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.8rem;
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-sm);
+  width: fit-content;
+}
+
+.hero-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 3.4rem);
+  line-height: 1.05;
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  max-width: 720px;
+  text-shadow: 0 4px 24px rgba(0,0,0,0.6);
+}
+
+.hero-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: var(--space-sm) 0;
+  font-size: var(--fs-small);
+  color: var(--text-secondary);
+  flex-wrap: wrap;
+}
+.hero-meta .rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+.hero-meta .dot { color: var(--text-tertiary); }
+
+.hero-desc {
+  max-width: 560px;
+  color: var(--text-secondary);
+  font-size: var(--fs-body);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: var(--space-md);
+}
+
+.hero-actions {
+  display: flex;
+  gap: 0.8rem;
+}
+
+.hero-actions .btn svg { flex-shrink: 0; }
+
+/* ---------- Dots & Controls ---------- */
+.hero-dots {
+  position: absolute;
+  bottom: var(--space-md);
+  right: var(--space-md);
+  z-index: 4;
+  display: flex;
+  gap: 0.5rem;
+}
+.hero-dot {
+  width: 28px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: rgba(255,255,255,0.25);
+  transition: var(--transition-fast);
+  cursor: pointer;
+}
+.hero-dot.active {
+  background: var(--accent-red);
+  width: 40px;
+}
+
+.hero-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 4;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.4);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-fast);
+  backdrop-filter: blur(4px);
+}
+.hero-arrow:hover { background: var(--accent-red); }
+.hero-arrow.prev { left: var(--space-sm); }
+.hero-arrow.next { right: var(--space-sm); }
+
+/* ---------- Hero Skeleton ---------- */
+.hero-skeleton {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 var(--space-md) var(--space-xl);
+  max-width: var(--container-max);
+  margin: 0 auto;
+  gap: 0.8rem;
+}
+
+/* ============================================================
+   RESPONSIVE — Hero
+   ============================================================ */
+@media (max-width: 768px) {
+  .hero-slider { height: 78vh; min-height: 460px; }
+  .hero-slide-content { padding-bottom: var(--space-lg); }
+  .hero-desc { -webkit-line-clamp: 2; font-size: var(--fs-small); }
+  .hero-arrow { display: none; }
+  .hero-actions .btn span { display: inline; }
+}
+
+@media (max-width: 480px) {
+  .hero-actions { flex-wrap: wrap; }
+  .hero-actions .btn { flex: 1; min-width: 140px; }
+}

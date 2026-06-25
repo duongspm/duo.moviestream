@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Xem Phim - DuoMovieStream</title>
+  <meta name="robots" content="noindex, follow" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+
+  <!-- Plyr CSS -->
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
+
+  <link rel="stylesheet" href="css/tokens.css" />
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/header.css" />
+  <link rel="stylesheet" href="css/watch.css" />
+  <link rel="stylesheet" href="css/footer.css" />
+
+  <style>
+    /* Tinh chỉnh màu Plyr theo theme đỏ-đen của site */
+    :root {
+      --plyr-color-main: #e0263f;
+      --plyr-video-background: #000;
+    }
+  </style>
+</head>
+
+<body class="watch-page">
+
+  <div id="site-header"></div>
+
+  <main id="watch-root">
+    <div class="watch-layout">
+      <div>
+        <div class="player-wrap" id="player-wrap">
+          <div class="player-loading">
+            <div class="spinner"></div>
+            <span>Đang tải phim...</span>
+          </div>
+        </div>
+
+        <div class="player-toolbar" id="player-toolbar"></div>
+
+        <div class="watch-title-block" id="watch-title-block"></div>
+      </div>
+
+      <aside class="watch-sidebar" id="watch-sidebar"></aside>
+    </div>
+  </main>
+
+  <div id="site-footer"></div>
+
+  <script src="js/config.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/services/httpClient.js"></script>
+  <script src="js/services/movieService.js"></script>
+
+  <script src="js/components/header.js"></script>
+  <script src="js/components/footer.js"></script>
+
+  <!-- HLS.js (giải mã m3u8 cho mọi browser) + Plyr (UI player) -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.13/dist/hls.min.js"></script>
+  <script src="https://cdn.plyr.io/3.7.8/plyr.polyfilled.js"></script>
+
+  <script src="js/services/playerService.js"></script>
+  <script src="js/pages/watch.js"></script>
+</body>
+
+</html>

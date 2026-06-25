@@ -1,0 +1,169 @@
+/* ============================================================
+   MOVIE CARD & ROWS (carousel danh mục)
+   ============================================================ */
+
+.movie-row {
+  position: relative;
+}
+
+.movie-row-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 200px;
+  gap: var(--space-sm);
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 0.5rem;
+  scrollbar-width: thin;
+}
+
+.movie-row-track::-webkit-scrollbar { height: 6px; }
+
+/* Grid tĩnh dùng cho trang danh mục/lọc/tìm kiếm */
+.movie-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-sm) var(--space-sm);
+}
+
+.movie-card {
+  display: block;
+  scroll-snap-align: start;
+  color: var(--text-primary);
+  transition: transform var(--transition-base);
+}
+.movie-row-track .movie-card { width: 200px; }
+
+.movie-card:hover {
+  transform: translateY(-6px);
+}
+
+.card-poster-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: var(--bg-surface);
+  box-shadow: var(--shadow-card);
+}
+
+.card-poster {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+.card-poster.loaded { opacity: 1; }
+.movie-card:hover .card-poster {
+  transform: scale(1.08);
+}
+
+.card-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--gradient-card-overlay);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity var(--transition-fast);
+}
+.movie-card:hover .card-overlay { opacity: 1; }
+
+.card-play-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--accent-red);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.7);
+  transition: var(--transition-fast);
+  box-shadow: var(--shadow-glow-red);
+}
+.movie-card:hover .card-play-btn { transform: scale(1); }
+
+.card-badges {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  right: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  pointer-events: none;
+}
+.card-badge {
+  font-size: var(--fs-tiny);
+  font-weight: 700;
+  padding: 0.15rem 0.5rem;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+}
+.badge-quality { background: rgba(224, 38, 63, 0.92); color: #fff; }
+.badge-episode { background: rgba(0,0,0,0.7); color: var(--accent-gold); margin-left: auto; }
+
+.card-info {
+  padding-top: 0.6rem;
+}
+.card-title {
+  font-size: var(--fs-small);
+  font-weight: 700;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-subtitle {
+  font-size: var(--fs-tiny);
+  color: var(--text-tertiary);
+  margin-top: 0.15rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--fs-tiny);
+  color: var(--text-tertiary);
+  margin-top: 0.3rem;
+}
+.card-meta .dot { opacity: 0.5; }
+
+/* Skeleton card riêng cho row/grid lúc loading */
+.skeleton-card .card-info { padding-top: 0.6rem; }
+
+/* ---------- Row navigation arrows (desktop) ---------- */
+.row-nav-btn {
+  position: absolute;
+  top: 35%;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: rgba(10,10,13,0.85);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-fast);
+}
+.row-nav-btn:hover { background: var(--accent-red); }
+.row-nav-btn.prev { left: -6px; }
+.row-nav-btn.next { right: -6px; }
+
+@media (max-width: 768px) {
+  .row-nav-btn { display: none; }
+  .movie-row-track { grid-auto-columns: 130px; }
+  .movie-row-track .movie-card { width: 130px; }
+  .movie-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+}

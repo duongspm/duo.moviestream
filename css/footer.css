@@ -55,3 +55,32 @@
 @media (max-width: 768px) {
   .footer-inner { grid-template-columns: 1fr; gap: var(--space-md); text-align: left; }
 }
+#analytics-counter {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  align-items: center;
+  margin-top: var(--space-md);
+  flex-wrap: wrap;
+}
+
+.counter-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: all 0.3s ease;
+}
+
+.counter-item:hover {
+  background: rgba(229, 9, 20, 0.1); /* Chuyển đỏ mờ khi hover */
+  border-color: var(--accent-red);
+}
+
+.counter-item span {
+  color: var(--accent-gold); /* Số hiển thị màu vàng nổi bật */
+  font-weight: bold;
+  margin-left: 4px;
+}

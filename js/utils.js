@@ -162,3 +162,40 @@ const Utils = {
     imgs.forEach((img) => observer.observe(img));
   },
 };
+async function trackingVisitsWithDate() {
+  const namespace = "moviestream_genz_2026"; // Tên định danh viết liền không dấu của bạn
+  
+  // 1. Lấy thời gian thực của hệ thống
+  const now = new Date();
+  const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`; // Định dạng: YYYY-MM-DD
+  const monthKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`; // Định dạng: YYYY-MM
+  const totalKey = "total_all_time";
+
+  try {
+    // 2. Đồng loạt kích hoạt tăng lượt đếm (Tận dụng Promise.all để load song song cho mượt)
+    const [resToday, resMonth, resTotal] = await Promise.all([
+      fetch(`https://api.countapi.xyz/hit/${namespace}/${todayKey}`),
+      fetch(`https://api.countapi.xyz/hit/${namespace}/${monthKey}`),
+      fetch(`https://api.countapi.xyz/hit/${namespace}/${totalKey}`)
+    ]);
+
+    const dataToday = await resToday.json();
+    const dataMonth = await resMonth.json();
+    const dataTotal = await resTotal.json();
+
+    // 3. Đổ dữ liệu vào giao diện HTML
+    const countContainer = document.getElementById('analytics-counter');
+    if (countContainer) {
+      countContainer.innerHTML = `
+        <div class="counter-item">📅 Hôm nay: <span>${dataToday.value || 1}</span></div>
+        <div class="counter-item">🗓️ Tháng này: <span>${dataMonth.value || 1}</span></div>
+        <div class="counter-item">🔥 Tổng lượt xem: <span>${dataTotal.value || 1}</span></div>
+      `;
+    }
+  } catch (err) {
+    console.log("Hệ thống đếm lượt truy cập đang bận, phim vẫn load mượt nhé bạn ơi!", err);
+  }
+}
+
+// Chạy khi trang index load xong
+document.addEventListener("DOMContentLoaded", () => trackingVisitsWithDate());

@@ -33,6 +33,7 @@ const CONFIG = {
     ENDPOINTS: {
       NEWEST: "/danh-sach/phim-moi-cap-nhat-v3", // phim mới cập nhật (bản v3 nhiều field hơn)
       DETAIL: "/phim", // GET /phim/{slug}
+      TMDB: "/tmdb", // GET /tmdb/{type}/{tmdb_id} - chỉ phim có hỗ trợ TMDB ID
       LIST: "/v1/api/danh-sach", // GET /v1/api/danh-sach/{type_list}
       SEARCH: "/v1/api/tim-kiem", // GET /v1/api/tim-kiem?keyword=
       CATEGORY: "/v1/api/the-loai", // GET /v1/api/the-loai/{slug}
@@ -54,6 +55,23 @@ const CONFIG = {
       PHIM_CHIEU_RAP: "phim-chieu-rap",
     },
 
+    // Giá trị hợp lệ cho tham số sort_lang (lọc theo ngôn ngữ lồng tiếng/sub)
+    SORT_LANG: {
+      VIETSUB: "vietsub",
+      THUYET_MINH: "thuyet-minh",
+      LONG_TIENG: "long-tieng",
+    },
+
+    // Quốc gia nổi bật để dựng row riêng trên trang chủ (slug phải khớp /quoc-gia)
+    FEATURED_COUNTRIES: [
+      { slug: "han-quoc", label: "Phim Hàn Quốc" },
+      { slug: "trung-quoc", label: "Phim Trung Quốc" },
+      { slug: "au-my", label: "Phim Âu Mỹ" },
+    ],
+
+    // Số phim gợi ý liên quan hiển thị ở trang chi tiết
+    RELATED_LIMIT: 12,
+
     // Số phim / trang mặc định (tối đa BE cho phép là 64)
     DEFAULT_LIMIT: 24,
 
@@ -67,7 +85,7 @@ const CONFIG = {
   SITE: {
     NAME: "Duoflix",
     DESCRIPTION:
-      "Vùng đất cứu rỗi những chiếc deadline. Xem phim online không quảng cáo, không 'nhà tôi 3 đời', load nhanh hơn cách người yêu cũ trở mặt! | Xem phim online chất lượng cao, cập nhật nhanh nhất - Vietsub, Thuyết minh, Lồng tiếng",
+      "Chiếc web xem phim tự code chạy bằng cơm, không pop-up, không quảng cáo , không trị xương khớp. Chỉ có phim hay, giao diện mượt và sự yên bình cho tâm hồn Gen Z sau giờ chạy deadline. Xem phim online chất lượng cao, cập nhật nhanh nhất - Vietsub, Thuyết minh, Lồng tiếng",
     LOGO_TEXT: "DUO",
     LOGO_ACCENT: "FLIX",
   },
@@ -90,6 +108,17 @@ const CONFIG = {
     ENABLE: true,
     TTL: 5 * 60 * 1000, // 5 phút
   },
+
+  // ----------------------------------------------------------
+  // 5. LOCAL STORAGE KEYS (Yêu thích / Tiếp tục xem / Lịch sử)
+  // ----------------------------------------------------------
+  // Toàn bộ tính năng này lưu trên máy người dùng (localStorage),
+  // KHÔNG gửi lên server nào - vì site không có backend riêng.
+  STORAGE: {
+    FAVORITES_KEY: "moviestream_favorites", // danh sách phim yêu thích
+    HISTORY_KEY: "moviestream_history", // lịch sử xem (kèm % tiến độ)
+    HISTORY_MAX_ITEMS: 50, // giới hạn số phim lưu trong lịch sử
+  },
 };
 
 // Đóng băng để tránh việc code khác vô tình ghi đè cấu hình lúc runtime
@@ -97,3 +126,4 @@ Object.freeze(CONFIG.API);
 Object.freeze(CONFIG.SITE);
 Object.freeze(CONFIG.PLAYER);
 Object.freeze(CONFIG.CACHE);
+Object.freeze(CONFIG.STORAGE);

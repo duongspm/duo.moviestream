@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Chi Tiết Phim - Duoflix</title>
-  <meta name="description" content="Chiếc web xem phim tự code chạy bằng cơm, không pop-up, không quảng cáo , không trị xương khớp. Chỉ có phim hay, giao diện mượt và sự yên bình cho tâm hồn Gen Z sau giờ chạy deadline. Thông tin chi tiết phim: nội dung, diễn viên, đạo diễn, danh sách tập." />
-  <meta name="robots" content="index, follow" />
+  <title>Phim Yêu Thích Của Bạn - Duoflix</title>
+  <meta name="robots" content="noindex, follow" />
 
   <!-- ===== Favicon & App Icons ===== -->
   <link rel="icon" href="assets/favicon.ico" sizes="any" />
@@ -17,11 +16,6 @@
   <link rel="mask-icon" href="assets/safari-pinned-tab.svg" color="#e0263f" />
   <link rel="manifest" href="assets/site.webmanifest" />
   <meta name="theme-color" content="#060608" />
-
-  <!-- ===== Open Graph / SEO xã hội =====
-       Mặc định dùng ảnh OGP chung; detail.js sẽ override og:title/og:image
-       bằng id="og-title"/id="og-image" sau khi fetch xong dữ liệu phim cụ thể,
-       để khi chia sẻ link phim lên Facebook/Zalo sẽ hiện đúng poster phim đó. -->
   <meta property="og:title"
     content="Chi Tiết Phim - Duoflix | Chiếc web xem phim tự code chạy bằng cơm, không pop-up, không quảng cáo  , không trị xương khớp. Chỉ có phim hay, giao diện mượt và sự yên bình cho tâm hồn Gen Z sau giờ chạy deadline."
     id="og-title" />
@@ -35,13 +29,6 @@
   <meta property="og:locale" content="vi_VN" />
   <meta property="og:site_name" content="Duoflix" />
 
-  <!-- ===== Twitter Card ===== -->
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title"
-    content="Chi Tiết Phim - Duoflix | Chiếc web xem phim tự code chạy bằng cơm, không pop-up, không quảng cáo  , không trị xương khớp. Chỉ có phim hay, giao diện mượt và sự yên bình cho tâm hồn Gen Z sau giờ chạy deadline."
-    id="twitter-title" />
-  <meta name="twitter:image" content="https://duo-moviestream.vercel.app/assets/ogp-image.png" id="twitter-image" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -49,18 +36,51 @@
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/base.css" />
   <link rel="stylesheet" href="css/header.css" />
-  <link rel="stylesheet" href="css/detail.css" />
   <link rel="stylesheet" href="css/movie-card.css" />
+  <link rel="stylesheet" href="css/filter.css" />
   <link rel="stylesheet" href="css/footer.css" />
+
+  <style>
+    /* CSS riêng nhỏ cho trang favorites - không đủ lớn để tách file riêng */
+    .favorite-card { position: relative; }
+    .favorite-remove-btn {
+      width: 100%;
+      margin-top: 0.5rem;
+      padding: 0.45rem;
+      font-size: var(--fs-tiny);
+      font-weight: 600;
+      color: var(--text-tertiary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      transition: var(--transition-fast);
+    }
+    .favorite-remove-btn:hover {
+      color: var(--accent-red);
+      border-color: var(--accent-red);
+    }
+  </style>
 </head>
 <body>
 
   <div id="site-header"></div>
 
-  <main>
-    <div id="detail-root"></div>
-    <section id="episode-section" class="episode-section"></section>
-    <section id="related-section" class="section"></section>
+  <main class="filter-page">
+    <div class="container">
+      <div class="filter-hero">
+        <h1>Phim Yêu Thích Của Bạn</h1>
+        <p>Danh sách này lưu trên trình duyệt này - đổi máy hoặc xoá cache sẽ mất dữ liệu.</p>
+      </div>
+
+      <div class="movie-grid" id="favorites-grid"></div>
+
+      <div class="empty-block" id="favorites-empty" hidden>
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        <p>Bạn chưa có phim yêu thích nào.</p>
+        <a href="index.html" class="btn btn-primary">Khám phá phim ngay</a>
+      </div>
+    </div>
   </main>
 
   <div id="site-footer"></div>
@@ -73,8 +93,7 @@
 
   <script src="js/components/header.js"></script>
   <script src="js/components/footer.js"></script>
-  <script src="js/components/movieCard.js"></script>
 
-  <script src="js/pages/detail.js"></script>
+  <script src="js/pages/favorites.js"></script>
 </body>
 </html>

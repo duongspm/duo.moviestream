@@ -25,8 +25,11 @@ class PlayerService {
   /**
    * @param {{ linkM3u8?: string, linkEmbed?: string }} episode
    * @param {string} wrapId - id của .player-wrap container
+   * @param {{ resumeAt?: number }} options - resumeAt: giây cần seek tới sau
+   *   khi video sẵn sàng (chỉ áp dụng được ở mode 'hls' — xem ghi chú ở
+   *   _playIframe() để biết lý do mode iframe không hỗ trợ được tính năng này).
    */
-  async play(episode, wrapId = "player-wrap") {
+  async play(episode, wrapId = "player-wrap", options = {}) {
     this.destroy();
     const wrap = document.getElementById(wrapId);
     if (!wrap) return;
@@ -40,7 +43,7 @@ class PlayerService {
     const preferHls = CONFIG.PLAYER.DEFAULT_MODE === "hls" && episode.linkM3u8;
 
     if (preferHls) {
-      const success = await this._playHls(episode.linkM3u8, wrap);
+      const success = await this._playHls(episode.linkM3u8, wrap, options.resumeAt || 0);
       if (success) return;
     }
 
@@ -57,7 +60,7 @@ class PlayerService {
   }
 
   /** Thử phát bằng HLS.js + Plyr. Trả về true nếu khởi tạo OK (không đảm bảo network luôn ổn). */
-  async _playHls(src, wrap) {
+  async _playHls(src, wrap, resumeAt = 0) {
     return new Promise((resolve) => {
       wrap.innerHTML = `<video id="player-video" class="player-video" playsinline controls></video>`;
       const video = document.getElementById("player-video");
@@ -83,6 +86,9 @@ class PlayerService {
       video.addEventListener("loadedmetadata", () => {
         finishLoading();
         initPlyr();
+        if (resumeAt > 0 && resumeAt < video.duration - 5) {
+          video.currentTime = resumeAt;
+        }
         resolve(true);
       });
 
@@ -126,7 +132,18 @@ class PlayerService {
     });
   }
 
-  /** Fallback: nhúng iframe link_embed từ nguồn phim, sandbox hạn chế popup */
+  /**
+   * Fallback: nhúng iframe link_embed từ nguồn phim, sandbox hạn chế popup.
+   *
+   * GIỚI HẠN QUAN TRỌNG (minh bạch với người dùng code): vì iframe trỏ tới
+   * domain khác (cross-origin), JavaScript của site KHÔNG thể đọc được
+   * currentTime/duration hay bắt event "ended" từ bên trong iframe đó.
+   * Hệ quả: tính năng "Tiếp tục xem" (resume) và "Auto-next tập" CHỈ hoạt
+   * động khi player đang ở mode HLS (tự render bằng Plyr) — khi rơi về
+   * mode iframe, 2 tính năng này tự động không khả dụng cho tập đó, KHÔNG
+   * có cách nào khắc phục từ phía client mà không có sự hợp tác của nguồn
+   * nhúng (ví dụ qua postMessage, mà các nguồn phim free thường không hỗ trợ).
+   */
   _playIframe(src, wrap) {
     this.mode = "iframe";
     wrap.innerHTML = `

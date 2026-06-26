@@ -142,6 +142,47 @@ class MovieService {
     return this._adaptListResponse(raw);
   }
 
+  // ==========================================================
+  // 6. THÔNG TIN BỔ SUNG TỪ TMDB (chỉ áp dụng phim có hỗ trợ TMDB ID)
+  // ==========================================================
+  /**
+   * Gọi endpoint riêng /tmdb/{type}/{id} để lấy dữ liệu TMDB gốc -
+   * thường có thêm backdrop chất lượng cao, dùng làm nền hero cho
+   * trang chi tiết/xem phim đẹp hơn so với chỉ dùng poster thường.
+   * Trả về null nếu phim không hỗ trợ TMDB hoặc lỗi - KHÔNG throw,
+   * vì đây là dữ liệu "làm đẹp thêm", không phải dữ liệu cốt lõi.
+   * @param {"tv"|"movie"} type
+   * @param {string|number} tmdbId
+   */
+  async getTmdbInfo(type, tmdbId) {
+    if (!tmdbId) return null;
+    try {
+      const url = `${this.base}${this.ep.TMDB}/${type}/${tmdbId}`;
+      const raw = await this.http.get(url);
+      return raw || null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  /**
+   * Lấy danh sách phim "có thể bạn quan tâm" dựa trên thể loại đầu
+   * tiên của phim hiện tại, loại trừ chính phim đó khỏi kết quả.
+   * Đây không phải gợi ý cá nhân hoá - chỉ là cùng thể loại, nhưng
+   * vẫn hữu ích hơn nhiều so với không có gì ở trang chi tiết.
+   * @param {object} movie - movie đã chuẩn hoá (cần category[0].slug)
+   */
+  async getRelated(movie) {
+    const categorySlug = movie.category?.[0]?.slug;
+    if (!categorySlug) return [];
+    try {
+      const { items } = await this.getByCategory(categorySlug, { limit: CONFIG.API.RELATED_LIMIT + 1 });
+      return items.filter((m) => m && m.slug !== movie.slug).slice(0, CONFIG.API.RELATED_LIMIT);
+    } catch (_) {
+      return [];
+    }
+  }
+
   _mapFilters(filters = {}) {
     const { sortField, sortType, sortLang, category, country, year, limit } = filters;
     return {
@@ -176,8 +217,13 @@ class MovieService {
       episodeCurrent: item.episode_current,
       time: item.time,
       modifiedTime: item.modified?.time,
+      // tmdb không đảm bảo có mặt ở mọi response danh sách (tuỳ phiên bản
+      // endpoint) - map nếu có, các nơi dùng đến PHẢI tự kiểm tra tồn tại
+      // trước khi dùng, không được giả định luôn có giá trị.
+      tmdb: item.tmdb || null,
     };
   };
+
 
   /** Chuẩn hoá phần phân trang để UI render nút next/prev đồng nhất */
   _adaptPagination(p) {

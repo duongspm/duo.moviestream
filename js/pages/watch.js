@@ -10,11 +10,12 @@ const WatchPage = {
   episodeIndex: 0,
   autoNextEnabled: true,
   autoNextTimer: null,
+  resumeTime: 0, // thời điểm (giây) sẽ tự seek tới khi vào tập đã xem dở
+  _saveProgressTimer: null,
 
   async init() {
     Header.mount();
     Footer.mount();
-    ScrollToTop.mount();
 
     const slug = Utils.getQueryParam("slug");
     if (!slug) {
@@ -29,13 +30,8 @@ const WatchPage = {
       return;
     }
 
-    if (
-      !this.movie.servers?.length ||
-      !this.movie.servers.some((s) => s.items.length)
-    ) {
-      this._fatalError(
-        "Phim này hiện chưa có nguồn phát. Vui lòng quay lại sau.",
-      );
+    if (!this.movie.servers?.length || !this.movie.servers.some((s) => s.items.length)) {
+      this._fatalError("Phim này hiện chưa có nguồn phát. Vui lòng quay lại sau.");
       return;
     }
 
@@ -43,12 +39,30 @@ const WatchPage = {
     const serverFromUrl = Number(Utils.getQueryParam("server"));
     const epSlugFromUrl = Utils.getQueryParam("ep");
 
-    this.serverIndex = this.movie.servers[serverFromUrl]?.items.length
-      ? serverFromUrl
-      : 0;
+    this.serverIndex = this.movie.servers[serverFromUrl]?.items.length ? serverFromUrl : 0;
     const items = this.movie.servers[this.serverIndex].items;
     const epIdx = items.findIndex((e) => e.slug === epSlugFromUrl);
-    this.episodeIndex = epIdx >= 0 ? epIdx : 0;
+
+    // Nếu người dùng vào thẳng từ trang chủ/Tiếp tục xem mà KHÔNG chỉ định
+    // rõ tập (không có ?ep=) thì tự nhảy tới đúng tập đang xem dở (nếu có).
+    const savedProgress = storageService.getProgress(slug);
+    if (epIdx >= 0) {
+      this.episodeIndex = epIdx;
+    } else if (savedProgress && items[savedProgress.episodeIndex]) {
+      this.episodeIndex = savedProgress.episodeIndex;
+    } else {
+      this.episodeIndex = 0;
+    }
+
+    // Chỉ tự resume đúng thời điểm cũ nếu đang mở lại ĐÚNG tập đã xem dở
+    // (tránh seek nhầm khi người dùng chủ động chọn 1 tập khác hẳn).
+    this.resumeTime =
+      savedProgress &&
+      savedProgress.episodeIndex === this.episodeIndex &&
+      savedProgress.serverIndex === this.serverIndex &&
+      savedProgress.currentTime > 10
+        ? savedProgress.currentTime
+        : 0;
 
     this._renderTitleBlock();
     this._renderToolbar();
@@ -56,6 +70,89 @@ const WatchPage = {
     this._loadEpisode();
 
     playerService.onEnded(() => this._handleEnded());
+    playerService.onTimeUpdate((currentTime, duration) => this._handleTimeUpdate(currentTime, duration));
+
+    // Lưu lại tiến độ ngay trước khi người dùng đóng tab/điều hướng đi nơi khác,
+    // để không mất vài giây cuối chưa kịp lưu theo định kỳ.
+    window.addEventListener("beforeunload", () => this._saveProgressNow());
+
+    this._bindKeyboardShortcuts();
+  },
+
+  /**
+   * Phím tắt điều khiển player, CHỈ hoạt động khi player ở mode HLS (video
+   * tag do site tự render). Khi rơi về mode iframe (nguồn nhúng bên thứ ba),
+   * trình duyệt không cho JS của site điều khiển video bên trong iframe đó
+   * (cross-origin) nên các phím tắt này sẽ không có tác dụng - đây là giới
+   * hạn kỹ thuật, không phải lỗi.
+   *
+   * Space/K  : play / pause
+   * ← / →    : lùi / tiến 10 giây
+   * ↑ / ↓    : tăng / giảm âm lượng 10%
+   * M        : tắt / mở tiếng
+   * F        : toàn màn hình
+   * N        : chuyển tập kế tiếp (nếu có)
+   */
+  _bindKeyboardShortcuts() {
+    document.addEventListener("keydown", (e) => {
+      // Không can thiệp khi người dùng đang gõ vào ô input/textarea (ví dụ search box)
+      const tag = document.activeElement?.tagName;
+      if (tag === "INPUT" || tag === "TEXTAREA") return;
+
+      const video = playerService.video;
+      const isHlsMode = playerService.mode === "hls" && video;
+
+      switch (e.key.toLowerCase()) {
+        case " ":
+        case "k":
+          if (!isHlsMode) return;
+          e.preventDefault();
+          video.paused ? video.play() : video.pause();
+          break;
+        case "arrowleft":
+          if (!isHlsMode) return;
+          e.preventDefault();
+          video.currentTime = Math.max(0, video.currentTime - 10);
+          break;
+        case "arrowright":
+          if (!isHlsMode) return;
+          e.preventDefault();
+          video.currentTime = Math.min(video.duration || Infinity, video.currentTime + 10);
+          break;
+        case "arrowup":
+          if (!isHlsMode) return;
+          e.preventDefault();
+          video.volume = Math.min(1, video.volume + 0.1);
+          break;
+        case "arrowdown":
+          if (!isHlsMode) return;
+          e.preventDefault();
+          video.volume = Math.max(0, video.volume - 0.1);
+          break;
+        case "m":
+          if (!isHlsMode) return;
+          video.muted = !video.muted;
+          break;
+        case "f":
+          if (!isHlsMode) return;
+          this._toggleFullscreen();
+          break;
+        case "n":
+          if (this._hasNextEpisode()) this._goNextEpisode();
+          break;
+        default:
+          break;
+      }
+    });
+  },
+
+  _toggleFullscreen() {
+    const wrap = document.getElementById("player-wrap");
+    if (!document.fullscreenElement) {
+      wrap.requestFullscreen?.();
+    } else {
+      document.exitFullscreen?.();
+    }
   },
 
   _currentEpisode() {
@@ -84,37 +181,37 @@ const WatchPage = {
         ${m.servers
           .map(
             (s, i) =>
-              `<button class="${i === this.serverIndex ? "active" : ""}" data-server="${i}" ${!s.items.length ? "disabled title='Server không có dữ liệu'" : ""}>${Utils.escapeHtml(s.serverName)}</button>`,
+              `<button class="${i === this.serverIndex ? "active" : ""}" data-server="${i}" ${!s.items.length ? "disabled title='Server không có dữ liệu'" : ""}>${Utils.escapeHtml(s.serverName)}</button>`
           )
           .join("")}
       </div>
       <label class="autonext-toggle">
         Tự động chuyển tập
         <span class="switch ${this.autoNextEnabled ? "on" : ""}" id="autonext-switch"></span>
-      </label>`;
+      </label>
+      <span class="keyboard-hint" title="Space: Play/Pause • ←/→: Lùi/Tiến 10s • ↑/↓: Âm lượng • M: Tắt tiếng • F: Toàn màn hình • N: Tập kế">
+        ⌨️ Phím tắt
+      </span>`;
 
-    toolbar
-      .querySelectorAll("#server-switch button:not(:disabled)")
-      .forEach((btn) => {
-        btn.addEventListener("click", () => {
-          const newServer = Number(btn.dataset.server);
-          if (newServer === this.serverIndex) return;
-          this.serverIndex = newServer;
-          this.episodeIndex = 0;
-          this._renderToolbar();
-          this._renderTitleBlock();
-          this._renderSidebar();
-          this._loadEpisode();
-        });
+    toolbar.querySelectorAll("#server-switch button:not(:disabled)").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const newServer = Number(btn.dataset.server);
+        if (newServer === this.serverIndex) return;
+        this._saveProgressNow();
+        this.serverIndex = newServer;
+        this.episodeIndex = 0;
+        this._renderToolbar();
+        this._renderTitleBlock();
+        this._renderSidebar();
+        this._loadEpisode();
       });
+    });
 
-    document
-      .getElementById("autonext-switch")
-      .addEventListener("click", (e) => {
-        this.autoNextEnabled = !this.autoNextEnabled;
-        e.target.classList.toggle("on", this.autoNextEnabled);
-        if (!this.autoNextEnabled) this._clearAutoNextOverlay();
-      });
+    document.getElementById("autonext-switch").addEventListener("click", (e) => {
+      this.autoNextEnabled = !this.autoNextEnabled;
+      e.target.classList.toggle("on", this.autoNextEnabled);
+      if (!this.autoNextEnabled) this._clearAutoNextOverlay();
+    });
   },
 
   _renderSidebar() {
@@ -126,7 +223,7 @@ const WatchPage = {
         ${items
           .map(
             (ep, i) =>
-              `<button class="ep-list-item ${i === this.episodeIndex ? "current" : ""}" data-ep="${i}">${Utils.escapeHtml(ep.name.replace(/^Tập\s*/i, ""))}</button>`,
+              `<button class="ep-list-item ${i === this.episodeIndex ? "current" : ""}" data-ep="${i}">${Utils.escapeHtml(ep.name.replace(/^Tập\s*/i, ""))}</button>`
           )
           .join("")}
       </div>`;
@@ -142,12 +239,9 @@ const WatchPage = {
   },
 
   _afterEpisodeChange() {
-    document
-      .querySelectorAll(".ep-list-item")
-      .forEach((b) => b.classList.remove("current"));
-    document
-      .querySelector(`.ep-list-item[data-ep="${this.episodeIndex}"]`)
-      ?.classList.add("current");
+    this._saveProgressNow();
+    document.querySelectorAll(".ep-list-item").forEach((b) => b.classList.remove("current"));
+    document.querySelector(`.ep-list-item[data-ep="${this.episodeIndex}"]`)?.classList.add("current");
     this._renderTitleBlock();
     this._loadEpisode();
     this._syncUrl();
@@ -156,24 +250,62 @@ const WatchPage = {
 
   _syncUrl() {
     const ep = this._currentEpisode();
-    Utils.setQueryParams({
-      slug: this.movie.slug,
-      server: this.serverIndex,
-      ep: ep.slug,
-    });
+    Utils.setQueryParams({ slug: this.movie.slug, server: this.serverIndex, ep: ep.slug });
   },
 
   _loadEpisode() {
     this._clearAutoNextOverlay();
     const ep = this._currentEpisode();
-    playerService.play(ep, "player-wrap");
+    const seekTo = this.resumeTime;
+    this.resumeTime = 0; // chỉ resume 1 lần lúc vào trang, không áp dụng khi đổi tập sau đó
+
+    playerService.play(ep, "player-wrap", { resumeAt: seekTo });
+    if (seekTo > 5) {
+      Utils.toast(`Đang tiếp tục từ ${Utils.formatDuration(seekTo)}`, "info");
+    }
     this._syncUrl();
   },
 
+  _handleTimeUpdate(currentTime, duration) {
+    this._lastKnownTime = currentTime;
+    this._lastKnownDuration = duration;
+
+    // Throttle: chỉ ghi localStorage mỗi ~5 giây phát, không ghi mỗi frame
+    // (timeupdate bắn rất thường xuyên) để tránh tốn hiệu năng vô ích.
+    if (this._saveProgressTimer) return;
+    this._saveProgressTimer = setTimeout(() => {
+      this._saveProgressTimer = null;
+      this._saveProgressNow();
+    }, 5000);
+  },
+
+  _saveProgressNow() {
+    if (!this.movie || !this._lastKnownDuration) return;
+    // Phim coi như đã xem xong (>95%) thì xoá khỏi "Tiếp tục xem" luôn,
+    // tránh hiển thị 1 phim đã xem hết trong row dành cho phim xem dở.
+    const pct = (this._lastKnownTime / this._lastKnownDuration) * 100;
+    if (pct >= 95) {
+      storageService.removeProgress(this.movie.slug);
+      return;
+    }
+    const ep = this._currentEpisode();
+    storageService.saveProgress({
+      slug: this.movie.slug,
+      name: this.movie.name,
+      thumbUrl: this.movie.thumbUrl,
+      year: this.movie.year,
+      type: this.movie.type,
+      serverIndex: this.serverIndex,
+      episodeIndex: this.episodeIndex,
+      episodeSlug: ep.slug,
+      episodeName: ep.name,
+      currentTime: this._lastKnownTime,
+      duration: this._lastKnownDuration,
+    });
+  },
+
   _hasNextEpisode() {
-    return (
-      this.episodeIndex < this.movie.servers[this.serverIndex].items.length - 1
-    );
+    return this.episodeIndex < this.movie.servers[this.serverIndex].items.length - 1;
   },
 
   _goNextEpisode() {
@@ -188,8 +320,7 @@ const WatchPage = {
   },
 
   _showAutoNextOverlay() {
-    const nextEp =
-      this.movie.servers[this.serverIndex].items[this.episodeIndex + 1];
+    const nextEp = this.movie.servers[this.serverIndex].items[this.episodeIndex + 1];
     const wrap = document.getElementById("player-wrap");
     let seconds = CONFIG.PLAYER.AUTO_NEXT_COUNTDOWN;
     const circumference = 2 * Math.PI * 28;
@@ -216,21 +347,15 @@ const WatchPage = {
     wrap.appendChild(overlay);
 
     const progressCircle = overlay.querySelector(".progress");
-    document
-      .getElementById("autonext-now")
-      .addEventListener("click", () => this._goNextEpisode());
-    document
-      .getElementById("autonext-cancel")
-      .addEventListener("click", () => this._clearAutoNextOverlay());
+    document.getElementById("autonext-now").addEventListener("click", () => this._goNextEpisode());
+    document.getElementById("autonext-cancel").addEventListener("click", () => this._clearAutoNextOverlay());
 
     this.autoNextTimer = setInterval(() => {
       seconds -= 1;
       const secEl = document.getElementById("autonext-seconds");
       if (secEl) secEl.textContent = seconds;
-      const offset =
-        circumference * (1 - seconds / CONFIG.PLAYER.AUTO_NEXT_COUNTDOWN);
-      if (progressCircle)
-        progressCircle.setAttribute("stroke-dashoffset", offset);
+      const offset = circumference * (1 - seconds / CONFIG.PLAYER.AUTO_NEXT_COUNTDOWN);
+      if (progressCircle) progressCircle.setAttribute("stroke-dashoffset", offset);
       if (seconds <= 0) {
         clearInterval(this.autoNextTimer);
         this._goNextEpisode();

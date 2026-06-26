@@ -202,6 +202,12 @@ ul, ol {
   text-align: center;
   grid-column: 1 / -1;
 }
+/* Thuộc tính [hidden] có độ ưu tiên CSS thấp hơn class selector nên bị
+   "display: flex" ở trên đè mất - phải khai báo rõ lại ở đây để hidden
+   thực sự ẩn được phần tử (áp dụng cho mọi nơi dùng .empty-block/.error-block). */
+.empty-block[hidden], .error-block[hidden] {
+  display: none;
+}
 .error-block svg { color: var(--accent-red); }
 .error-block p, .empty-block p { color: var(--text-secondary); }
 
@@ -240,83 +246,4 @@ ul, ol {
   height: 1px;
   overflow: hidden;
   clip: rect(0 0 0 0);
-}
-
-/* ---------- NÚT SCROLL TO TOP TIẾN ĐỘ ---------- */
-.scroll-to-top {
-  position: fixed;
-  bottom: var(--space-md, 1.4rem);
-  right: var(--space-md, 1.4rem);
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background: var(--bg-surface, #15161c);
-  border: 1px solid var(--border-subtle, #1d1e26);
-  z-index: 999; /* Đẩy lên cao hẳn để không bị các phần tử khác đè */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(15px);
-  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.6);
-}
-
-/* Thêm class này khi cuộn xuống */
-.scroll-to-top.visible {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0);
-}
-
-.progress-circle {
-  position: absolute;
-  inset: -1px;
-  transform: rotate(-90deg); /* Quay góc để tiến độ chạy từ đỉnh đầu */
-}
-
-.progress-bg {
-  stroke: var(--bg-surface-2, #1d1e26);
-}
-
-.progress-bar {
-  stroke: var(--accent-red, #e0263f); /* Màu đỏ rạp phim */
-  stroke-linecap: round;
-  transition: stroke-dashoffset 0.05s linear;
-}
-
-.arrow-icon {
-  color: var(--text-primary, #f4f4f6);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: opacity 0.2s, transform 0.2s;
-}
-
-.progress-text {
-  position: absolute;
-  font-size: var(--fs-tiny, 0.72rem);
-  font-weight: 700;
-  color: var(--accent-gold, #f3c44d); /* Số % màu vàng neon */
-  opacity: 0;
-  transform: scale(0.8);
-  transition: opacity 0.2s, transform 0.2s;
-}
-
-/* Hiệu ứng Hover */
-.scroll-to-top:hover {
-  background: var(--bg-surface-2, #1d1e26);
-  border-color: var(--accent-gold, #f3c44d);
-}
-
-.scroll-to-top:hover .arrow-icon {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-
-.scroll-to-top:hover .progress-text {
-  opacity: 1;
-  transform: scale(1);
 }

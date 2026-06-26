@@ -16,9 +16,8 @@
 }
 
 .header.scrolled {
-  background: rgba(8, 8, 11, 0.76);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(8, 8, 11, 0.96);
+  backdrop-filter: blur(10px);
   box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
   border-bottom: 1px solid var(--border-subtle);
 }
@@ -91,6 +90,23 @@
   align-items: center;
   gap: var(--space-sm);
   margin-left: auto;
+}
+
+/* ---------- Favorite nav icon ---------- */
+.favorite-nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  transition: var(--transition-fast);
+}
+.favorite-nav-link:hover {
+  color: var(--accent-red);
+  background: rgba(224, 38, 63, 0.1);
 }
 
 /* ---------- Search Box ---------- */
@@ -212,26 +228,7 @@
    ============================================================ */
 @media (max-width: 900px) {
   .nav-desktop { display: none; }
-  .menu-toggle { display: flex; 
-    position: fixed;
-    top: 70px;
-    right: 20px;
-    z-index: 999;  
-    background: var(--accent-red);
-    border-radius: 8px;
-  }
-  .menu-toggle svg line{
-    transition: all .3s cubic-bezier(0.075, 0.82, 0.165, 1);
-  }
-  .menu-toggle.active svg line:nth-child(2){
-    opacity: 0;
-  }
-  .menu-toggle.active svg line:nth-child(1){
-    transform: translateX(4px) rotate(30deg);
-  }
-  .menu-toggle.active svg line:nth-child(3){
-    transform: translate(-8px, 1px) rotate(-30deg)
-  }
+  .menu-toggle { display: flex; }
   .search-box { width: 200px; }
 }
 
@@ -252,13 +249,11 @@
     max-height: 0;
     overflow: hidden;
     transition: max-height var(--transition-base);
-    transition: all .2s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
   .nav-mobile.open {
     display: flex;
     max-height: 70vh;
     overflow-y: auto;
-    transition: all .2s cubic-bezier(0.075, 0.82, 0.165, 1);
   }
   .nav-mobile a {
     padding: 0.9rem var(--space-md);
@@ -276,41 +271,4 @@
     right: var(--space-sm);
     width: auto;
   }
-}
-/* 1. Nâng cấp Header thành kính mờ cao cấp */
-#site-header, .site-header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-  background: rgba(10, 10, 12, 0.7) !important; /* Đen mờ */
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  transition: background 0.3s ease;
-}
-
-/* 2. Hiệu ứng Vignette (Bóng mờ rạp phim) cho Hero Slider */
-.hero-slider {
-  position: relative;
-  overflow: hidden;
-}
-
-.hero-slide::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  /* Lớp phủ tối dần về phía đáy và hai rìa để làm nổi bật chữ và tạo cảm giác IMAX */
-  background: linear-gradient(
-    to top,
-    rgba(10, 10, 12, 1) 0%,
-    rgba(10, 10, 12, 0.4) 40%,
-    rgba(10, 10, 12, 0.7) 100%
-  );
-  z-index: 2;
-}
-
-.hero-skeleton {
-  z-index: 3; /* Đảm bảo chữ nổi lên trên lớp phủ tối */
 }

@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Tìm Kiếm Phim - Duoflix</title>
-  <meta name="robots" content="index, follow" />
+  <meta name="robots" content="noindex, follow" />
 
   <!-- ===== Favicon & App Icons ===== -->
   <link rel="icon" href="assets/favicon.ico" sizes="any" />
@@ -36,8 +35,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/base.css" />
@@ -46,7 +44,6 @@
   <link rel="stylesheet" href="css/filter.css" />
   <link rel="stylesheet" href="css/footer.css" />
 </head>
-
 <body>
 
   <div id="site-header"></div>
@@ -58,8 +55,12 @@
       </div>
 
       <form id="search-page-form" class="filter-bar" style="gap:0.6rem;">
-        <input id="search-page-input" type="text" placeholder="Nhập tên phim cần tìm..."
-          style="flex:1; min-width:200px; background:var(--bg-surface-2); padding:0.6rem 1rem; border-radius:var(--radius-sm); color:var(--text-primary); border:1px solid var(--border-subtle);" />
+        <input
+          id="search-page-input"
+          type="text"
+          placeholder="Nhập tên phim cần tìm..."
+          style="flex:1; min-width:200px; background:var(--bg-surface-2); padding:0.6rem 1rem; border-radius:var(--radius-sm); color:var(--text-primary); border:1px solid var(--border-subtle);"
+        />
         <button type="submit" class="btn btn-primary">Tìm kiếm</button>
       </form>
 
@@ -80,11 +81,8 @@
 
   <script src="js/components/header.js"></script>
   <script src="js/components/footer.js"></script>
-
-  <script src="js/components/scrollToTop.js"></script>
   <script src="js/components/movieCard.js"></script>
 
   <script src="js/pages/search.js"></script>
 </body>
-
 </html>

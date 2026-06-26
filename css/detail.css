@@ -118,6 +118,12 @@
   padding: 0.85rem 2rem;
 }
 
+#favorite-btn.is-favorite {
+  border-color: var(--accent-red);
+  color: var(--accent-red);
+  background: rgba(224, 38, 63, 0.08);
+}
+
 /* ---------- Episode list (trang detail) ---------- */
 .episode-section {
   margin-top: var(--space-lg);

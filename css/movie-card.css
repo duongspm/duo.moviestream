@@ -158,6 +158,7 @@
   transition: var(--transition-fast);
 }
 .row-nav-btn:hover { background: var(--accent-red); }
+.row-nav-btn[hidden] { display: none; }
 .row-nav-btn.prev { left: -6px; }
 .row-nav-btn.next { right: -6px; }
 
@@ -166,4 +167,43 @@
   .movie-row-track { grid-auto-columns: 130px; }
   .movie-row-track .movie-card { width: 130px; }
   .movie-grid { grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); }
+}
+
+/* ---------- Continue Watching: progress bar + remove button ---------- */
+.continue-progress-track {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.18);
+}
+.continue-progress-fill {
+  height: 100%;
+  background: var(--accent-red);
+  box-shadow: 0 0 8px rgba(224, 38, 63, 0.6);
+}
+
+.continue-remove-btn {
+  position: absolute;
+  top: 0.4rem;
+  right: 0.4rem;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(6, 6, 8, 0.75);
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: var(--transition-fast);
+  z-index: 3;
+}
+.movie-card:hover .continue-remove-btn {
+  opacity: 1;
+}
+.continue-remove-btn:hover {
+  background: var(--accent-red);
+  color: #fff;
 }

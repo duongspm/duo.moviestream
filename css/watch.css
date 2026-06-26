@@ -153,6 +153,20 @@
   color: var(--text-secondary);
 }
 
+.keyboard-hint {
+  font-size: var(--fs-tiny);
+  color: var(--text-tertiary);
+  cursor: help;
+  padding: 0.3rem 0.6rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  margin-left: auto;
+}
+.keyboard-hint:hover {
+  color: var(--accent-gold);
+  border-color: var(--accent-gold-dim);
+}
+
 /* Simple toggle switch */
 .switch {
   position: relative;

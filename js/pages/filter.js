@@ -15,6 +15,7 @@ const FilterPage = {
     country: "",
     year: "",
     sortField: "modified.time",
+    sortLang: "", // vietsub | thuyet-minh | long-tieng | "" (tất cả)
     page: 1,
   },
   categories: [],
@@ -23,7 +24,6 @@ const FilterPage = {
   async init() {
     Header.mount();
     Footer.mount();
-    ScrollToTop.mount();
 
     this._readStateFromUrl();
     await this._loadFilterOptions();
@@ -39,6 +39,7 @@ const FilterPage = {
     this.state.country = p.get("country") || "";
     this.state.year = p.get("year") || "";
     this.state.sortField = p.get("sort_field") || "modified.time";
+    this.state.sortLang = p.get("sort_lang") || "";
     this.state.page = Number(p.get("page")) || 1;
   },
 
@@ -65,14 +66,10 @@ const FilterPage = {
       [CONFIG.API.TYPE_LIST.TV_SHOWS]: "TV Shows",
       [CONFIG.API.TYPE_LIST.PHIM_CHIEU_RAP]: "Phim Chiếu Rạp",
     };
-    document.getElementById("filter-title").textContent =
-      titleMap[this.state.type] || "Danh Sách Phim";
+    document.getElementById("filter-title").textContent = titleMap[this.state.type] || "Danh Sách Phim";
     document.title = `${titleMap[this.state.type] || "Danh sách phim"} - ${CONFIG.SITE.NAME}`;
 
-    const yearOptions = Array.from(
-      { length: 2026 - 1970 + 1 },
-      (_, i) => 2026 - i,
-    );
+    const yearOptions = Array.from({ length: 2026 - 1970 + 1 }, (_, i) => 2026 - i);
 
     const bar = document.getElementById("filter-bar");
     bar.innerHTML = `
@@ -110,6 +107,14 @@ const FilterPage = {
           <option value="year">Năm phát hành</option>
           <option value="_id">Mới thêm (ID)</option>
         </select>
+      </div>
+      <div class="filter-select" id="f-lang-wrap" title="${this.state.type === "phim-moi-cap-nhat" ? "Lọc ngôn ngữ chỉ áp dụng cho danh mục cụ thể (Phim Lẻ, Phim Bộ...), không áp dụng cho 'Tất cả'" : ""}">
+        <select id="f-lang" aria-label="Ngôn ngữ" ${this.state.type === "phim-moi-cap-nhat" ? "disabled" : ""}>
+          <option value="">Ngôn ngữ</option>
+          <option value="${CONFIG.API.SORT_LANG.VIETSUB}">Vietsub</option>
+          <option value="${CONFIG.API.SORT_LANG.THUYET_MINH}">Thuyết minh</option>
+          <option value="${CONFIG.API.SORT_LANG.LONG_TIENG}">Lồng tiếng</option>
+        </select>
       </div>`;
 
     // Đặt giá trị hiện tại từ state
@@ -118,18 +123,30 @@ const FilterPage = {
     bar.querySelector("#f-country").value = this.state.country;
     bar.querySelector("#f-year").value = this.state.year;
     bar.querySelector("#f-sort").value = this.state.sortField;
+    bar.querySelector("#f-lang").value = this.state.sortLang;
   },
 
   _bindFilterEvents() {
     const bar = document.getElementById("filter-bar");
-    ["f-type", "f-category", "f-country", "f-year", "f-sort"].forEach((id) => {
+    ["f-type", "f-category", "f-country", "f-year", "f-sort", "f-lang"].forEach((id) => {
       bar.querySelector(`#${id}`)?.addEventListener("change", () => {
         this.state.type = bar.querySelector("#f-type").value;
         this.state.category = bar.querySelector("#f-category").value;
         this.state.country = bar.querySelector("#f-country").value;
         this.state.year = bar.querySelector("#f-year").value;
         this.state.sortField = bar.querySelector("#f-sort").value;
+        this.state.sortLang = bar.querySelector("#f-lang").value;
         this.state.page = 1;
+
+        // Đổi sang "Tất cả" (phim-moi-cap-nhat) thì lọc ngôn ngữ không áp
+        // dụng được (endpoint không hỗ trợ) - tự reset để tránh giữ giá trị
+        // ảo không có tác dụng thực tế.
+        if (this.state.type === "phim-moi-cap-nhat") {
+          this.state.sortLang = "";
+        }
+
+        this._renderFilterBar();
+        this._bindFilterEvents();
         this._syncUrl();
         this._loadList();
       });
@@ -143,6 +160,7 @@ const FilterPage = {
       country: this.state.country,
       year: this.state.year,
       sort_field: this.state.sortField,
+      sort_lang: this.state.sortLang,
       page: this.state.page > 1 ? this.state.page : "",
     });
   },
@@ -159,17 +177,14 @@ const FilterPage = {
         country: this.state.country,
         year: this.state.year,
         sortField: this.state.sortField,
+        sortLang: this.state.sortLang,
       };
 
       let result;
       if (this.state.type === "phim-moi-cap-nhat") {
         result = await movieService.getNewest(this.state.page);
       } else {
-        result = await movieService.getListByType(
-          this.state.type,
-          filters,
-          this.state.page,
-        );
+        result = await movieService.getListByType(this.state.type, filters, this.state.page);
       }
 
       const valid = result.items.filter(Boolean);
@@ -186,10 +201,7 @@ const FilterPage = {
 
       window.scrollTo({ top: 0, behavior: "instant" });
     } catch (err) {
-      grid.innerHTML = Utils.errorBlock(
-        err.message || "Không thể tải danh sách phim.",
-        () => this._loadList(),
-      );
+      grid.innerHTML = Utils.errorBlock(err.message || "Không thể tải danh sách phim.", () => this._loadList());
       info.textContent = "";
     }
   },
@@ -216,14 +228,10 @@ const FilterPage = {
 
     let html = "";
     html += btn("‹", currentPage - 1, { disabled: currentPage <= 1 });
-    if (start > 1)
-      html +=
-        btn("1", 1) + (start > 2 ? `<span class="page-ellipsis">…</span>` : "");
+    if (start > 1) html += btn("1", 1) + (start > 2 ? `<span class="page-ellipsis">…</span>` : "");
     pages.forEach((p) => (html += btn(p, p, { active: p === currentPage })));
     if (end < totalPages)
-      html +=
-        (end < totalPages - 1 ? `<span class="page-ellipsis">…</span>` : "") +
-        btn(totalPages, totalPages);
+      html += (end < totalPages - 1 ? `<span class="page-ellipsis">…</span>` : "") + btn(totalPages, totalPages);
     html += btn("›", currentPage + 1, { disabled: currentPage >= totalPages });
 
     container.innerHTML = html;

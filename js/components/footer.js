@@ -30,9 +30,11 @@ const Footer = {
           </div>
 
           <div class="footer-col">
-            <h4>Thông Tin</h4>
-            <span>Phim được tổng hợp từ các nguồn API công khai trên Internet.</span>
-            <span>Website không lưu trữ bất kỳ video nào trên server.</span>
+            <h4>Thông Tin Hệ Điều Hành Bằng Cơm</h4>
+            <span>- Phim được tổng hợp từ các nguồn API công khai trên Internet.</span>
+            <span>- Chủ thớt quá mệt mỏi với đống quảng cáo   nên tự tay code chiếc web này để healing tâm hồn.</span>
+            <span>- Website không lưu trữ bất kỳ video nào trên server.</span>
+            <span>- Website hoạt động theo cơ chế 'nhặt nhạnh' API công khai, không lưu trữ video, không làm giàu từ data của bạn. Xem phim vui vẻ, không quạu!</span>
           </div>
         </div>
 

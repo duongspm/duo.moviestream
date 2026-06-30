@@ -40,6 +40,10 @@ const Footer = {
 
         <div class="footer-bottom">
           <p>© ${year} ${CONFIG.SITE.LOGO_TEXT}${CONFIG.SITE.LOGO_ACCENT}. Dữ liệu phim chỉ mang tính chất tổng hợp, không thuộc quyền sở hữu của website.</p>
+            <div class="visitor-counter">
+              Lượt truy cập:
+              <img src="https://visitor-badge.laobi.icu/badge?page_id=duoflix.visit-counter" alt="lượt truy cập" />
+            </div>
         </div>
       </footer>`;
   },

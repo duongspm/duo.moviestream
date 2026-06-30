@@ -151,3 +151,15 @@
     bottom: var(--space-sm);
   }
 }
+.visitor-counter {
+  margin-top: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: var(--fs-tiny);
+}
+.visitor-counter img {
+  height: 18px;
+  vertical-align: middle;
+}

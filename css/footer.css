@@ -55,3 +55,99 @@
 @media (max-width: 768px) {
   .footer-inner { grid-template-columns: 1fr; gap: var(--space-md); text-align: left; }
 }
+/* ============================================================
+   SCROLL TOP BUTTON — vòng tròn % scroll + mũi tên lên đầu trang
+   ============================================================ */
+
+.scroll-top-btn {
+  position: fixed;
+  right: var(--space-md);
+  bottom: var(--space-md);
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-card);
+  cursor: pointer;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(12px) scale(0.9);
+  transition: opacity var(--transition-base), transform var(--transition-base),
+    background var(--transition-fast);
+}
+
+.scroll-top-btn.visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.scroll-top-btn[hidden] {
+  display: none;
+}
+
+.scroll-top-btn:hover {
+  background: var(--bg-surface-2);
+}
+
+.scroll-top-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+.scroll-top-ring-bg,
+.scroll-top-ring-fill {
+  fill: none;
+  stroke-width: 3;
+  cx: 22;
+  cy: 22;
+  r: 19;
+}
+.scroll-top-ring-bg {
+  stroke: var(--border-subtle);
+}
+.scroll-top-ring-fill {
+  stroke: var(--accent-red);
+  stroke-linecap: round;
+  stroke-dasharray: 119.4;
+  stroke-dashoffset: 119.4;
+  transition: stroke-dashoffset 0.1s linear;
+}
+
+.scroll-top-arrow {
+  display: flex;
+  color: var(--text-primary);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+.scroll-top-percent {
+  position: absolute;
+  font-size: var(--fs-tiny);
+  font-weight: 700;
+  color: var(--text-secondary);
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+
+.scroll-top-btn:hover .scroll-top-arrow {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+.scroll-top-btn:hover .scroll-top-percent {
+  opacity: 1;
+  transform: translateY(0);
+  color: var(--accent-gold);
+}
+
+@media (max-width: 600px) {
+  .scroll-top-btn {
+    width: 44px;
+    height: 44px;
+    right: var(--space-sm);
+    bottom: var(--space-sm);
+  }
+}

@@ -16,10 +16,19 @@
 }
 
 .header.scrolled {
-  background: rgba(8, 8, 11, 0.96);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
-  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(10, 10, 14, 0.72);
+  backdrop-filter: blur(18px) saturate(140%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.45);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+/* Viền sáng mỏng phía trên tạo cảm giác "mặt kính" có độ dày */
+.header.scrolled::after {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25) 50%, transparent);
 }
 
 .header-inner {

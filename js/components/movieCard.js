@@ -28,6 +28,13 @@ const MovieCard = {
       ? `<span class="card-badge badge-quality">${Utils.escapeHtml(movie.quality)}</span>`
       : "";
 
+    // Rating chỉ hiện nếu dữ liệu có thật (không phải mọi item đều có field
+    // này - xem ghi chú minh bạch ở movieService.js ADAPTER ZONE)
+    const rating = Utils.getRating(movie);
+    const ratingHtml = rating
+      ? `<span class="card-hover-rating">★ ${rating}</span>`
+      : "";
+
     return `
       <a href="detail.html?slug=${encodeURIComponent(movie.slug)}" class="movie-card" data-slug="${movie.slug}">
         <div class="card-poster-wrap">
@@ -36,6 +43,12 @@ const MovieCard = {
             <button class="card-play-btn" aria-label="Xem phim">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
             </button>
+            <div class="card-hover-meta">
+              ${ratingHtml}
+              ${ratingHtml && (movie.year || movie.lang) ? `<span class="dot">•</span>` : ""}
+              <span>${movie.year || ""}</span>
+              ${movie.lang ? `<span class="dot">•</span><span>${Utils.escapeHtml(movie.lang)}</span>` : ""}
+            </div>
           </div>
           <div class="card-badges">
             ${qualityBadge}

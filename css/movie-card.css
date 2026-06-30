@@ -87,6 +87,34 @@
 }
 .movie-card:hover .card-play-btn { transform: scale(1); }
 
+/* ---------- Thông tin nhanh khi hover (rating, năm, ngôn ngữ) ---------- */
+.card-hover-meta {
+  white-space: nowrap;
+  overflow-x: auto;
+  position: absolute;
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: 0.6rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: var(--fs-tiny);
+  font-weight: 600;
+  color: var(--text-secondary);
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
+}
+.movie-card:hover .card-hover-meta {
+  opacity: 1;
+  transform: translateY(0);
+}
+.card-hover-rating {
+  color: var(--accent-gold);
+  font-weight: 700;
+}
+.card-hover-meta .dot { opacity: 0.6; }
+
 .card-badges {
   position: absolute;
   top: 0.5rem;

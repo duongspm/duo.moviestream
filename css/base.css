@@ -247,3 +247,26 @@ ul, ol {
   overflow: hidden;
   clip: rect(0 0 0 0);
 }
+
+/* ---------- Page transition (fade nhẹ khi chuyển trang) ---------- */
+body {
+  animation: pageFadeIn 0.25s ease;
+}
+@keyframes pageFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+/* Lớp phủ fade-out trước khi điều hướng sang trang khác, do page-transition.js điều khiển */
+.page-exit-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-void);
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease;
+}
+.page-exit-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}

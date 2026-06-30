@@ -248,28 +248,52 @@ ul, ol {
   clip: rect(0 0 0 0);
 }
 
-/* ---------- Page transition (fade nhẹ khi chuyển trang) ---------- */
+/* ---------- Page transition hiện đại: wipe chéo + scale nhẹ ---------- */
 body {
-  animation: pageFadeIn 0.25s ease;
+  animation: pageEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
-@keyframes pageFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes pageEnter {
+  from { opacity: 0; transform: scale(0.98) translateY(8px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
 }
-/* Lớp phủ fade-out trước khi điều hướng sang trang khác, do page-transition.js điều khiển */
+
 .page-exit-overlay {
   position: fixed;
   inset: 0;
-  background: var(--bg-void);
   z-index: 9999;
-  opacity: 0;
   pointer-events: none;
-  transition: opacity 0.18s ease;
+  display: flex;
+}
+.page-exit-overlay .wipe-panel {
+  flex: 1;
+  background: linear-gradient(135deg, var(--bg-void) 60%, var(--accent-red-dim) 100%);
+  transform: translateX(-100%);
+}
+.page-exit-overlay.active .wipe-panel {
+  transition: transform 0.42s cubic-bezier(0.76, 0, 0.24, 1);
+  transform: translateX(0%);
 }
 .page-exit-overlay.active {
-  opacity: 1;
   pointer-events: all;
 }
+/* Logo nhỏ hiện giữa lúc wipe che màn hình, tạo điểm nhấn thương hiệu */
+.page-exit-overlay .wipe-logo {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.6);
+  opacity: 0;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+  transition: opacity 0.25s ease 0.15s, transform 0.25s ease 0.15s;
+  pointer-events: none;
+}
+.page-exit-overlay.active .wipe-logo {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+.page-exit-overlay .wipe-logo span { color: var(--accent-red); }
 @media screen and (min-width: 769px) {
   .only-sp{
     display: none;

@@ -1,16 +1,16 @@
 /**
  * ============================================================
- *  PAGE TRANSITION — fade nhẹ khi chuyển trang
- * ============================================================
- * Chặn click vào link nội bộ (cùng site, không phải #anchor, không
- * target="_blank"), fade-out 180ms rồi mới điều hướng thật, tạo cảm
- * giác mượt hơn so với chuyển trang "nhảy trắng" đột ngột của browser.
+ *  PAGE TRANSITION — hiệu ứng wipe hiện đại khi chuyển trang
  * ============================================================
  */
 
 (function () {
   const overlay = document.createElement("div");
   overlay.className = "page-exit-overlay";
+  overlay.innerHTML = `
+    <div class="wipe-panel"></div>
+    <div class="wipe-logo">DUO<span>FLIX</span></div>
+  `;
   document.body.appendChild(overlay);
 
   document.addEventListener("click", (e) => {
@@ -31,6 +31,6 @@
     overlay.classList.add("active");
     setTimeout(() => {
       window.location.href = href;
-    }, 160);
+    }, 380); //380 khớp với thời lượng transition transform ở CSS (0.42s) trừ chút để cảm giác nhanh hơn
   });
 })();

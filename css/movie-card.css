@@ -123,6 +123,8 @@
   display: flex;
   justify-content: space-between;
   pointer-events: none;
+  flex-wrap: wrap;
+  row-gap: 0.5em;
 }
 .card-badge {
   font-size: var(--fs-tiny);
@@ -133,7 +135,12 @@
   backdrop-filter: blur(4px);
 }
 .badge-quality { background: rgba(224, 38, 63, 0.92); color: #fff; }
-.badge-episode { background: rgba(0,0,0,0.7); color: var(--accent-gold); margin-left: auto; }
+.badge-episode { background: rgba(0,0,0,0.7); color: var(--accent-gold); margin-left: auto; 
+  line-height: 1.2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .card-info {
   padding-top: 0.6rem;

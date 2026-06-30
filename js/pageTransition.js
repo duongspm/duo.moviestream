@@ -31,6 +31,6 @@
     overlay.classList.add("active");
     setTimeout(() => {
       window.location.href = href;
-    }, 380); //380 khớp với thời lượng transition transform ở CSS (0.42s) trừ chút để cảm giác nhanh hơn
+    }, 480); //380 khớp với thời lượng transition transform ở CSS (0.42s) trừ chút để cảm giác nhanh hơn
   });
 })();

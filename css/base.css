@@ -248,13 +248,15 @@ ul, ol {
   clip: rect(0 0 0 0);
 }
 
-/* ---------- Page transition hiện đại: wipe chéo + scale nhẹ ---------- */
+/* ---------- Page transition: wipe chéo (đã tinh chỉnh cho êm dịu) ---------- */
 body {
-  animation: pageEnter 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  /* Easing "ease-out" mượt tự nhiên thay vì cubic-bezier dốc đứng cũ -
+     không còn cảm giác tăng/giảm tốc gắt ở 2 đầu chuyển động. */
+  animation: pageEnter 0.5s ease-out;
 }
 @keyframes pageEnter {
-  from { opacity: 0; transform: scale(0.98) translateY(8px); }
-  to { opacity: 1; transform: scale(1) translateY(0); }
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .page-exit-overlay {
@@ -266,34 +268,41 @@ body {
 }
 .page-exit-overlay .wipe-panel {
   flex: 1;
-  background: linear-gradient(135deg, var(--bg-void) 60%, var(--accent-red-dim) 100%);
+  /* Gradient dịu hơn - giảm độ tương phản giữa 2 màu, đỡ "chói" mắt khi
+     khối lớn quét qua màn hình. */
+  background: linear-gradient(135deg, var(--bg-void) 75%, var(--accent-red-dim) 100%);
   transform: translateX(-100%);
 }
 .page-exit-overlay.active .wipe-panel {
-  transition: transform 0.42s cubic-bezier(0.76, 0, 0.24, 1);
+  /* Easing "ease" thường thay vì S-curve dốc đứng + kéo dài thời gian lên
+     0.55s - chuyển động chậm và đều hơn, não dễ theo dõi hơn nhiều so với
+     bản cũ tăng/giảm tốc đột ngột trong 0.42s. */
+  transition: transform 0.55s ease;
   transform: translateX(0%);
 }
 .page-exit-overlay.active {
   pointer-events: all;
 }
-/* Logo nhỏ hiện giữa lúc wipe che màn hình, tạo điểm nhấn thương hiệu */
 .page-exit-overlay .wipe-logo {
   position: absolute;
   top: 50%; left: 50%;
-  transform: translate(-50%, -50%) scale(0.6);
+  /* Bỏ scale(0.6 -> 1) "phóng to" - chỉ còn dịch nhẹ 6px, không còn hiệu
+     ứng phóng/teleport vốn là loại chuyển động dễ gây chóng mặt nhất. */
+  transform: translate(-50%, -46%);
   opacity: 0;
   font-family: var(--font-display);
   font-size: 10vw;
   color: var(--text-primary);
   letter-spacing: 0.04em;
-  transition: opacity 0.25s ease 0.15s, transform 0.25s ease 0.15s;
+  transition: opacity 0.3s ease 0.2s, transform 0.3s ease 0.2s;
   pointer-events: none;
 }
 .page-exit-overlay.active .wipe-logo {
   opacity: 1;
-  transform: translate(-50%, -50%) scale(1);
+  transform: translate(-50%, -50%);
 }
 .page-exit-overlay .wipe-logo span { color: var(--accent-red); }
+
 @media screen and (min-width: 769px) {
   .only-sp{
     display: none;
@@ -327,7 +336,7 @@ body {
 
 .page-loader-logo {
   font-family: var(--font-display);
-  font-size: 2rem;
+  font-size: 10vw;
   letter-spacing: 0.05em;
   color: var(--text-primary);
   /* Không scale, không nhấp nháy mạnh - chỉ "thở" độ mờ rất nhẹ và chậm,

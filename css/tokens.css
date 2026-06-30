@@ -85,3 +85,32 @@
     scroll-behavior: auto !important;
   }
 }
+/* ============================================================
+   LIGHT MODE — kích hoạt khi <html> có thuộc tính data-theme="light"
+   ============================================================ */
+html[data-theme="light"] {
+  --bg-void: #f5f5f7;
+  --bg-base: #ffffff;
+  --bg-surface: #f0f0f3;
+  --bg-surface-2: #746e6e;
+  --bg-elevated: #ffffff;
+
+  --text-primary: #15161c;
+  --text-secondary: #ffffff;
+  --text-tertiary: #8a8b96;
+  --text-on-accent: #ffffff;
+
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-strong: rgba(0, 0, 0, 0.16);
+
+  --gradient-fade-bottom: linear-gradient(180deg, transparent 0%, var(--bg-void) 95%);
+  --gradient-fade-left: linear-gradient(90deg, var(--bg-void) 0%, transparent 60%);
+  --gradient-card-overlay: linear-gradient(180deg, transparent 40%, rgba(255, 255, 255, 0.92) 100%);
+
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Mượt khi đổi theme, tránh giật màu đột ngột */
+body, .header, .movie-card, .btn, .filter-bar, .search-box {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}

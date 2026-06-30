@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
   <script src="js/themeManager.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Chi Tiết Phim - Duoflix</title>
-  <meta name="description" content="Chiếc web xem phim tự code chạy bằng cơm, không pop-up, không quảng cáo , không trị xương khớp. Chỉ có phim hay, giao diện mượt và sự yên bình cho tâm hồn Gen Z sau giờ chạy deadline. Thông tin chi tiết phim: nội dung, diễn viên, đạo diễn, danh sách tập." />
+  <meta name="description"
+    content="Chiếc web xem phim tự code chạy bằng cơm, không pop-up, không quảng cáo , không trị xương khớp. Chỉ có phim hay, giao diện mượt và sự yên bình cho tâm hồn Gen Z sau giờ chạy deadline. Thông tin chi tiết phim: nội dung, diễn viên, đạo diễn, danh sách tập." />
   <meta name="robots" content="index, follow" />
 
   <!-- ===== Favicon & App Icons ===== -->
@@ -45,7 +47,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
 
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/base.css" />
@@ -54,8 +57,18 @@
   <link rel="stylesheet" href="css/movie-card.css" />
   <link rel="stylesheet" href="css/footer.css" />
 </head>
+
 <body>
   <script src="js/pageTransition.js"></script>
+  <div id="page-loader" class="page-loader">
+    <div class="page-loader-logo">
+      DUO<span>FLIX</span>
+    </div>
+    <div class="page-loader-bar-track">
+      <div class="page-loader-bar-fill"></div>
+    </div>
+  </div>
+  <script src="js/pageLoader.js"></script>
 
   <div id="site-header"></div>
 
@@ -66,16 +79,19 @@
   </main>
 
   <div id="site-footer"></div>
-  
+
   <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Lên đầu trang" hidden>
-      <svg class="scroll-top-ring" viewBox="0 0 44 44">
-          <circle class="scroll-top-ring-bg" cx="22" cy="22" r="19"></circle>
-          <circle class="scroll-top-ring-fill" cx="22" cy="22" r="19"></circle>
+    <svg class="scroll-top-ring" viewBox="0 0 44 44">
+      <circle class="scroll-top-ring-bg" cx="22" cy="22" r="19"></circle>
+      <circle class="scroll-top-ring-fill" cx="22" cy="22" r="19"></circle>
+    </svg>
+    <span class="scroll-top-arrow">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
       </svg>
-      <span class="scroll-top-arrow">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
-      </span>
-      <span class="scroll-top-percent" id="scroll-top-percent">0%</span>
+    </span>
+    <span class="scroll-top-percent" id="scroll-top-percent">0%</span>
   </button>
 
   <script src="js/config.js"></script>
@@ -92,4 +108,5 @@
   <script src="js/scrollTop.js"></script>
 
 </body>
+
 </html>

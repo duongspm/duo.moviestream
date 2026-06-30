@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
   <script src="js/themeManager.js"></script>
@@ -36,7 +37,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
 
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/base.css" />
@@ -45,8 +47,18 @@
   <link rel="stylesheet" href="css/filter.css" />
   <link rel="stylesheet" href="css/footer.css" />
 </head>
+
 <body>
   <script src="js/pageTransition.js"></script>
+  <div id="page-loader" class="page-loader">
+    <div class="page-loader-logo">
+      DUO<span>FLIX</span>
+    </div>
+    <div class="page-loader-bar-track">
+      <div class="page-loader-bar-fill"></div>
+    </div>
+  </div>
+  <script src="js/pageLoader.js"></script>
 
   <div id="site-header"></div>
 
@@ -57,12 +69,8 @@
       </div>
 
       <form id="search-page-form" class="filter-bar" style="gap:0.6rem;">
-        <input
-          id="search-page-input"
-          type="text"
-          placeholder="Nhập tên phim cần tìm..."
-          style="flex:1; min-width:200px; background:var(--bg-surface-2); padding:0.6rem 1rem; border-radius:var(--radius-sm); color:var(--text-primary); border:1px solid var(--border-subtle);"
-        />
+        <input id="search-page-input" type="text" placeholder="Nhập tên phim cần tìm..."
+          style="flex:1; min-width:200px; background:var(--bg-surface-2); padding:0.6rem 1rem; border-radius:var(--radius-sm); color:var(--text-primary); border:1px solid var(--border-subtle);" />
         <button type="submit" class="btn btn-primary">Tìm kiếm</button>
       </form>
 
@@ -78,11 +86,14 @@
 
   <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Lên đầu trang" hidden>
     <svg class="scroll-top-ring" viewBox="0 0 44 44">
-        <circle class="scroll-top-ring-bg" cx="22" cy="22" r="19"></circle>
-        <circle class="scroll-top-ring-fill" cx="22" cy="22" r="19"></circle>
+      <circle class="scroll-top-ring-bg" cx="22" cy="22" r="19"></circle>
+      <circle class="scroll-top-ring-fill" cx="22" cy="22" r="19"></circle>
     </svg>
     <span class="scroll-top-arrow">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
+      </svg>
     </span>
     <span class="scroll-top-percent" id="scroll-top-percent">0%</span>
   </button>
@@ -100,4 +111,5 @@
   <script src="js/scrollTop.js"></script>
 
 </body>
+
 </html>

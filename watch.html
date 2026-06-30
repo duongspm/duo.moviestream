@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
   <script src="js/themeManager.js"></script>
@@ -33,7 +34,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
 
   <!-- Plyr CSS -->
   <link rel="stylesheet" href="https://cdn.plyr.io/3.7.8/plyr.css" />
@@ -52,8 +54,18 @@
     }
   </style>
 </head>
+
 <body class="watch-page">
   <script src="js/pageTransition.js"></script>
+  <div id="page-loader" class="page-loader">
+    <div class="page-loader-logo">
+      DUO<span>FLIX</span>
+    </div>
+    <div class="page-loader-bar-track">
+      <div class="page-loader-bar-fill"></div>
+    </div>
+  </div>
+  <script src="js/pageLoader.js"></script>
 
   <div id="site-header"></div>
 
@@ -80,11 +92,14 @@
 
   <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Lên đầu trang" hidden>
     <svg class="scroll-top-ring" viewBox="0 0 44 44">
-        <circle class="scroll-top-ring-bg" cx="22" cy="22" r="19"></circle>
-        <circle class="scroll-top-ring-fill" cx="22" cy="22" r="19"></circle>
+      <circle class="scroll-top-ring-bg" cx="22" cy="22" r="19"></circle>
+      <circle class="scroll-top-ring-fill" cx="22" cy="22" r="19"></circle>
     </svg>
     <span class="scroll-top-arrow">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
+      </svg>
     </span>
     <span class="scroll-top-percent" id="scroll-top-percent">0%</span>
   </button>
@@ -107,4 +122,5 @@
   <script src="js/scrollTop.js"></script>
 
 </body>
+
 </html>

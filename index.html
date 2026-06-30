@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
   <script src="js/themeManager.js"></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Duoflix - Xem Phim Không Quảng Cáo | Nơi Trú Ẩn Của Con Dân Hướng Nội | duoflix</title>
-  <meta name="description" content="Chiếc web xem phim tự code chạy bằng cơm, không pop-up, không quảng cáo, duoflix, không trị xương khớp. Chỉ có phim hay, giao diện mượt và sự yên bình cho tâm hồn Gen Z sau giờ chạy deadline. Xem phim online miễn phí, cập nhật nhanh nhất: phim mới, phim chiếu rạp, phim bộ, phim lẻ, hoạt hình - Vietsub, Thuyết minh, Lồng tiếng full HD." />
+  <meta name="description"
+    content="Chiếc web xem phim tự code chạy bằng cơm, không pop-up, không quảng cáo, duoflix, không trị xương khớp. Chỉ có phim hay, giao diện mượt và sự yên bình cho tâm hồn Gen Z sau giờ chạy deadline. Xem phim online miễn phí, cập nhật nhanh nhất: phim mới, phim chiếu rạp, phim bộ, phim lẻ, hoạt hình - Vietsub, Thuyết minh, Lồng tiếng full HD." />
   <meta name="robots" content="index, follow" />
 
   <!-- ===== Favicon & App Icons ===== -->
@@ -21,7 +23,8 @@
 
   <!-- ===== Open Graph / SEO xã hội ===== -->
   <meta property="og:title" content="Duoflix - Xem Phim Online Chất Lượng Cao" />
-  <meta property="og:description" content="Cập nhật phim mới nhất, phim chiếu rạp, phim bộ, phim lẻ, hoạt hình mỗi ngày." />
+  <meta property="og:description"
+    content="Cập nhật phim mới nhất, phim chiếu rạp, phim bộ, phim lẻ, hoạt hình mỗi ngày." />
   <meta property="og:type" content="website" />
   <meta property="og:image" content="assets/ogp-image.png" />
   <meta property="og:image:width" content="1200" />
@@ -32,12 +35,14 @@
   <!-- ===== Twitter Card ===== -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Duoflix - Xem Phim Online Chất Lượng Cao" />
-  <meta name="twitter:description" content="Cập nhật phim mới nhất, phim chiếu rạp, phim bộ, phim lẻ, hoạt hình mỗi ngày." />
+  <meta name="twitter:description"
+    content="Cập nhật phim mới nhất, phim chiếu rạp, phim bộ, phim lẻ, hoạt hình mỗi ngày." />
   <meta name="twitter:image" content="assets/ogp-image.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
 
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/base.css" />
@@ -46,8 +51,18 @@
   <link rel="stylesheet" href="css/movie-card.css" />
   <link rel="stylesheet" href="css/footer.css" />
 </head>
+
 <body>
   <script src="js/pageTransition.js"></script>
+  <div id="page-loader" class="page-loader">
+    <div class="page-loader-logo">
+      DUO<span>FLIX</span>
+    </div>
+    <div class="page-loader-bar-track">
+      <div class="page-loader-bar-fill"></div>
+    </div>
+  </div>
+  <script src="js/pageLoader.js"></script>
 
   <div id="site-header"></div>
 
@@ -72,11 +87,14 @@
 
   <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Lên đầu trang" hidden>
     <svg class="scroll-top-ring" viewBox="0 0 44 44">
-        <circle class="scroll-top-ring-bg" cx="22" cy="22" r="19"></circle>
-        <circle class="scroll-top-ring-fill" cx="22" cy="22" r="19"></circle>
+      <circle class="scroll-top-ring-bg" cx="22" cy="22" r="19"></circle>
+      <circle class="scroll-top-ring-fill" cx="22" cy="22" r="19"></circle>
     </svg>
     <span class="scroll-top-arrow">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
+      </svg>
     </span>
     <span class="scroll-top-percent" id="scroll-top-percent">0%</span>
   </button>
@@ -100,6 +118,7 @@
   <script src="js/pages/homeHelpers.js"></script>
   <script src="js/pages/home.js"></script>
   <script src="js/scrollTop.js"></script>
-  
+
 </body>
+
 </html>

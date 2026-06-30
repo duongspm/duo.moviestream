@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
   <meta charset="UTF-8" />
   <script src="js/themeManager.js"></script>
@@ -32,7 +33,8 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
 
   <link rel="stylesheet" href="css/tokens.css" />
   <link rel="stylesheet" href="css/base.css" />
@@ -43,7 +45,10 @@
 
   <style>
     /* CSS riêng nhỏ cho trang favorites - không đủ lớn để tách file riêng */
-    .favorite-card { position: relative; }
+    .favorite-card {
+      position: relative;
+    }
+
     .favorite-remove-btn {
       width: 100%;
       margin-top: 0.5rem;
@@ -55,16 +60,19 @@
       border-radius: var(--radius-sm);
       transition: var(--transition-fast);
     }
+
     .favorite-remove-btn:hover {
       color: var(--accent-red);
       border-color: var(--accent-red);
     }
+
     /* Tabs chuyển giữa Yêu thích / Đang xem dở */
     .fav-tabs {
       display: flex;
       gap: 0.6rem;
       margin-bottom: var(--space-md);
     }
+
     .fav-tab {
       padding: 0.55rem 1.1rem;
       border-radius: var(--radius-pill);
@@ -75,35 +83,65 @@
       border: 1px solid var(--border-subtle);
       transition: var(--transition-fast);
     }
+
     .fav-tab.active {
       background: var(--accent-red);
       border-color: var(--accent-red);
       color: #fff;
     }
-    .fav-tab:hover:not(.active) { border-color: var(--accent-gold); color: var(--accent-gold); }
 
-    .fav-tab-panel { display: none; }
-    .fav-tab-panel.active { display: block; }
+    .fav-tab:hover:not(.active) {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .fav-tab-panel {
+      display: none;
+    }
+
+    .fav-tab-panel.active {
+      display: block;
+    }
 
     /* Card "đang xem dở" - có progress bar giống Continue Watching ở trang chủ */
-    .watching-card { position: relative; }
+    .watching-card {
+      position: relative;
+    }
+
     .watching-progress-track {
-      position: absolute; left: 0; right: 0; bottom: 0; height: 5px;
-      background: rgba(255,255,255,0.18);
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 5px;
+      background: rgba(255, 255, 255, 0.18);
     }
+
     .watching-progress-fill {
-      height: 100%; background: var(--accent-red);
-      box-shadow: 0 0 8px rgba(224,38,63,0.6);
+      height: 100%;
+      background: var(--accent-red);
+      box-shadow: 0 0 8px rgba(224, 38, 63, 0.6);
     }
-    .favorite-nav-link{
+
+    .favorite-nav-link {
       color: var(--accent-red);
       background: rgba(224, 38, 63, 0.1);
     }
   </style>
 </head>
+
 <body>
   <script src="js/pageTransition.js"></script>
-  
+  <div id="page-loader" class="page-loader">
+    <div class="page-loader-logo">
+      DUO<span>FLIX</span>
+    </div>
+    <div class="page-loader-bar-track">
+      <div class="page-loader-bar-fill"></div>
+    </div>
+  </div>
+  <script src="js/pageLoader.js"></script>
+
   <div id="site-header"></div>
 
   <main class="filter-page">
@@ -122,7 +160,9 @@
         <div class="movie-grid" id="favorites-grid"></div>
         <div class="empty-block" id="favorites-empty" hidden>
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+            <path
+              d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z">
+            </path>
           </svg>
           <p>Bạn chưa có phim yêu thích nào.</p>
           <a href="index.html" class="btn btn-primary">Khám phá phim ngay</a>
@@ -133,7 +173,8 @@
         <div class="movie-grid" id="watching-grid"></div>
         <div class="empty-block" id="watching-empty" hidden>
           <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline>
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
           </svg>
           <p>Bạn chưa xem dở phim nào.</p>
           <a href="index.html" class="btn btn-primary">Khám phá phim ngay</a>
@@ -146,11 +187,14 @@
 
   <button id="scroll-top-btn" class="scroll-top-btn" aria-label="Lên đầu trang" hidden>
     <svg class="scroll-top-ring" viewBox="0 0 44 44">
-        <circle class="scroll-top-ring-bg" cx="22" cy="22" r="19"></circle>
-        <circle class="scroll-top-ring-fill" cx="22" cy="22" r="19"></circle>
+      <circle class="scroll-top-ring-bg" cx="22" cy="22" r="19"></circle>
+      <circle class="scroll-top-ring-fill" cx="22" cy="22" r="19"></circle>
     </svg>
     <span class="scroll-top-arrow">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="12" y1="19" x2="12" y2="5"></line>
+        <polyline points="5 12 12 5 19 12"></polyline>
+      </svg>
     </span>
     <span class="scroll-top-percent" id="scroll-top-percent">0%</span>
   </button>
@@ -168,4 +212,5 @@
   <script src="js/scrollTop.js"></script>
 
 </body>
+
 </html>

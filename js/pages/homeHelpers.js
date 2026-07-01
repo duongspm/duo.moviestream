@@ -40,4 +40,71 @@ const HomeHelpers = {
 
     return { items: sorted, pagination };
   },
+  /**
+   * Row Netflix: lấy phim Âu Mỹ chất lượng cao nhất từ danh sách mới
+   * nhất, sort theo TMDB rating giảm dần nếu data có sẵn - đây là cách
+   * gần nhất có thể làm với KKPhim vì không có slug "netflix" chính thức.
+   * Lấy số lượng nhiều (limit 48) rồi sort phía client để có đủ phim
+   * rating cao sau khi lọc bỏ những phim không có TMDB data.
+   */
+  async getNetflixMovies() {
+    try {
+      // Fetch 2 trang song song để có pool phim đủ lớn để sort rating
+      const [page1, page2] = await Promise.all([
+        movieService.getListByType(
+          CONFIG.API.TYPE_LIST.PHIM_LE,
+          { country: CONFIG.API.NETFLIX_COUNTRY, limit: 24, sortField: "modified.time" },
+          1
+        ),
+        movieService.getListByType(
+          CONFIG.API.TYPE_LIST.PHIM_LE,
+          { country: CONFIG.API.NETFLIX_COUNTRY, limit: 24, sortField: "modified.time" },
+          2
+        ),
+      ]);
+
+      const combined = [...page1.items, ...page2.items];
+
+      // Ưu tiên phim có TMDB rating cao (nếu có data), fallback giữ thứ tự
+      // mới nhất — đúng như cách getTopRatedMovies đã làm, không giả định
+      const hasRating = combined.some((m) => m.tmdb?.vote_average);
+      if (hasRating) {
+        combined.sort((a, b) => {
+          const ra = a.tmdb?.vote_average || 0;
+          const rb = b.tmdb?.vote_average || 0;
+          return rb - ra;
+        });
+      }
+
+      // Loại bỏ trùng lặp theo slug (có thể xảy ra khi 2 trang có item chung)
+      const seen = new Set();
+      const unique = combined.filter((m) => {
+        if (seen.has(m.slug)) return false;
+        seen.add(m.slug);
+        return true;
+      });
+
+      return { items: unique.slice(0, 20) };
+    } catch (err) {
+      return { items: [] };
+    }
+  },
+
+  /**
+   * Row Phim Chiếu Rạp Việt Nam: dùng endpoint phim-chieu-rap lọc theo
+   * country=viet-nam, sort theo thời gian cập nhật mới nhất (phim đang
+   * chiếu được cập nhật thường xuyên nhất).
+   */
+  async getVietnamCinemaMovies() {
+    try {
+      const result = await movieService.getListByType(
+        CONFIG.API.TYPE_LIST.PHIM_CHIEU_RAP,
+        { country: "viet-nam", limit: 24, sortField: "modified.time" },
+        1
+      );
+      return result;
+    } catch (err) {
+      return { items: [] };
+    }
+  },
 };

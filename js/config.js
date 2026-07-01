@@ -68,7 +68,11 @@ const CONFIG = {
       { slug: "trung-quoc", label: "Phim Trung Quốc" },
       { slug: "au-my", label: "Phim Âu Mỹ" },
     ],
-
+    // Nguồn Netflix: vì KKPhim không có slug "netflix" chính thức, tôi dùng
+    // 2 nguồn kết hợp: phim chiếu rạp sort theo TMDB rating (Âu Mỹ, mới nhất)
+    // để lấy phim chất lượng cao nhất mà người Việt biết qua Netflix.
+    NETFLIX_COUNTRY: "au-my", // phim Netflix Originals chủ yếu là Âu Mỹ
+    
     // Số phim gợi ý liên quan hiển thị ở trang chi tiết
     RELATED_LIMIT: 12,
 

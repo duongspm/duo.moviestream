@@ -78,6 +78,7 @@
   position: relative;
   padding: 0.4rem 0;
   transition: color var(--transition-fast);
+  white-space: nowrap;
 }
 .nav-desktop a::after {
   content: "";

@@ -27,6 +27,10 @@ const DetailPage = {
     } catch (err) {
       this._renderNotFound(err.message || "Không thể tải thông tin phim.");
     }
+    var swiper = new Swiper('.mySwiper', {
+      effect: 'cards',
+      grabCursor: true,
+    });
   },
 
   _renderSEO() {
@@ -65,11 +69,26 @@ const DetailPage = {
     const status = statusMap[m.status] || null;
 
     root.innerHTML = `
-      <div class="detail-banner" style="background-image:url('${m.posterUrl || m.thumbUrl}')"></div>
+      <div class="detail-banner" style="background-image:url('${m.thumbUrl || m.posterUrl}')"></div>
 
       <div class="detail-main">
         <div class="detail-poster">
-          <img src="${m.thumbUrl || m.posterUrl}" alt="${Utils.escapeHtml(m.name)}" />
+          <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <a href="${m.posterUrl || m.thumbUrl}" data-caption="${Utils.escapeHtml(m.name)}" data-fancybox="gallery">
+                  <img src="${m.posterUrl || m.thumbUrl}" alt="${Utils.escapeHtml(m.name)}" />              
+                </a>
+              </div>
+              <div class="swiper-slide">
+                <a href="${m.thumbUrl || m.posterUrl}" data-caption="${Utils.escapeHtml(m.name)}" data-fancybox="gallery">
+                  <img src="${m.thumbUrl || m.posterUrl}" alt="${Utils.escapeHtml(m.name)}" />              
+                </a>
+              </div>
+            </div>
+            <p>(click vào để xem chi tiết nhé)</p>
+          </div>
+          
         </div>
 
         <div class="detail-info">

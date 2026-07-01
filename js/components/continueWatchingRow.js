@@ -56,7 +56,7 @@ const ContinueWatchingRow = {
       <a href="watch.html?slug=${encodeURIComponent(entry.slug)}&server=${entry.serverIndex ?? 0}&ep=${encodeURIComponent(entry.episodeSlug || "")}"
          class="movie-card continue-card" data-slug="${entry.slug}">
         <div class="card-poster-wrap">
-          <img class="card-poster" data-src="${entry.thumbUrl}" src="" alt="${Utils.escapeHtml(entry.name)}" loading="lazy" />
+          <img class="card-poster" data-src="${entry.posterUrl}" src="" alt="${Utils.escapeHtml(entry.name)}" loading="lazy" />
           <div class="card-overlay">
             <button class="card-play-btn" aria-label="Tiếp tục xem">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>

@@ -17,8 +17,8 @@ const MovieCard = {
     if (!movie || !movie.slug) return "";
 
     const imgAttr = lazy
-      ? `data-src="${movie.thumbUrl}" src=""`
-      : `src="${movie.thumbUrl}"`;
+      ? `data-src="${movie.posterUrl}" src=""`
+      : `src="${movie.posterUrl}"`;
 
     const episodeBadge = movie.episodeCurrent
       ? `<span class="card-badge badge-episode">${Utils.escapeHtml(movie.episodeCurrent)}</span>`

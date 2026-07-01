@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #000; font-family: Arial, sans-serif; padding: 40px 32px; }
+
+  .label {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #444;
+    margin-bottom: 16px;
+    font-family: Arial, sans-serif;
+  }
+  .section { margin-bottom: 56px; }
+
+  /* ── CENTER BLOCKS ── */
+  .center { display: flex; justify-content: center; }
+  .row { display: flex; align-items: flex-end; gap: 32px; flex-wrap: wrap; }
+
+  /* ── OGP ── */
+  .ogp {
+    width: 100%;
+    max-width: 600px;
+    height: 314px;
+    background: #141414;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ 1. ICON — chữ D kiểu chữ N Netflix ══ -->
+<div class="section">
+  <div class="label">Icon mark — chữ D kiểu Netflix</div>
+  <div class="center">
+    <svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Bóng đổ bên phải như Netflix N -->
+        <linearGradient id="shadow3d" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#8B0000"/>
+          <stop offset="40%" stop-color="#B20710"/>
+          <stop offset="100%" stop-color="#3D0000"/>
+        </linearGradient>
+        <linearGradient id="frontFace" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#E50914"/>
+          <stop offset="100%" stop-color="#CC0812"/>
+        </linearGradient>
+        <linearGradient id="topEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FF2020"/>
+          <stop offset="100%" stop-color="#E50914"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Chữ D — mặt chính (đỏ) -->
+      <!-- Cột dọc trái -->
+      <rect x="28" y="18" width="38" height="164" fill="url(#frontFace)" rx="2"/>
+
+      <!-- Phần cong bên phải của D (polygon tạo hình bán nguyệt vuông kiểu Netflix) -->
+      <!-- Dùng path để vẽ chữ D serif condensed -->
+      <path d="
+        M 66 18
+        C 130 18, 165 45, 165 100
+        C 165 155, 130 182, 66 182
+        L 66 148
+        C 112 148, 130 130, 130 100
+        C 130 70, 112 52, 66 52
+        Z
+      " fill="url(#frontFace)"/>
+
+      <!-- Bóng đổ 3D phía dưới-phải như Netflix -->
+      <!-- Cạnh bên phải cột trái — tạo chiều sâu -->
+      <path d="
+        M 66 18
+        L 80 30
+        L 80 170
+        L 66 182
+        Z
+      " fill="url(#shadow3d)" opacity="0.7"/>
+
+      <!-- Bóng cạnh bên ngoài của D -->
+      <path d="
+        M 165 100
+        C 165 155, 130 182, 66 182
+        L 80 170
+        C 120 168, 150 148, 150 100
+        C 150 52, 120 32, 80 30
+        L 66 18
+        C 130 18, 165 45, 165 100
+        Z
+      " fill="url(#shadow3d)" opacity="0.5"/>
+    </svg>
+  </div>
+</div>
+
+<!-- ══ 2. WORDMARK — DUOFLIX kiểu NETFLIX ══ -->
+<div class="section">
+  <div class="label">Wordmark — DUOFLIX</div>
+  <div class="center">
+    <svg width="580" height="110" viewBox="0 0 580 110" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FF1A1A"/>
+          <stop offset="50%" stop-color="#E50914"/>
+          <stop offset="100%" stop-color="#C0050F"/>
+        </linearGradient>
+      </defs>
+      <!--
+        Font Netflix dùng "Bebas Neue" style — condensed sans-serif, all caps.
+        Tái tạo bằng SVG text với font-stretch ultra-condensed.
+        Chúng ta dùng Arial Narrow / Impact làm fallback gần nhất.
+      -->
+      <text
+        x="290" y="88"
+        font-family="'Arial Black', 'Impact', 'Haettenschweiler', Arial, sans-serif"
+        font-size="96"
+        font-weight="900"
+        font-stretch="condensed"
+        text-anchor="middle"
+        fill="url(#wGrad)"
+        letter-spacing="4"
+        style="font-variant: normal; text-transform: uppercase;"
+      >DUOFLIX</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ══ 3. FAVICON sizes ══ -->
+<div class="section">
+  <div class="label">Favicon — các kích thước</div>
+  <div class="row" style="justify-content:flex-start; align-items:flex-end;">
+
+    <!-- 512 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="font-size:10px;color:#444;letter-spacing:1px;">512px</div>
+      <div style="width:96px;height:96px;background:#000;border-radius:12px;display:flex;align-items:center;justify-content:center;">
+        <svg width="76" height="76" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fGrad1" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#E50914"/><stop offset="100%" stop-color="#CC0812"/></linearGradient>
+            <linearGradient id="fShadow" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#8B0000"/><stop offset="100%" stop-color="#3D0000"/></linearGradient>
+          </defs>
+          <rect x="28" y="18" width="38" height="164" fill="url(#fGrad1)" rx="2"/>
+          <path d="M 66 18 C 130 18,165 45,165 100 C 165 155,130 182,66 182 L 66 148 C 112 148,130 130,130 100 C 130 70,112 52,66 52 Z" fill="url(#fGrad1)"/>
+          <path d="M 66 18 L 80 30 L 80 170 L 66 182 Z" fill="url(#fShadow)" opacity="0.65"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 192 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="font-size:10px;color:#444;letter-spacing:1px;">192px</div>
+      <div style="width:64px;height:64px;background:#000;border-radius:10px;display:flex;align-items:center;justify-content:center;">
+        <svg width="50" height="50" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="fGrad2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#E50914"/><stop offset="100%" stop-color="#CC0812"/></linearGradient>
+            <linearGradient id="fShadow2" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#8B0000"/><stop offset="100%" stop-color="#3D0000"/></linearGradient>
+          </defs>
+          <rect x="28" y="18" width="38" height="164" fill="url(#fGrad2)" rx="2"/>
+          <path d="M 66 18 C 130 18,165 45,165 100 C 165 155,130 182,66 182 L 66 148 C 112 148,130 130,130 100 C 130 70,112 52,66 52 Z" fill="url(#fGrad2)"/>
+          <path d="M 66 18 L 80 30 L 80 170 L 66 182 Z" fill="url(#fShadow2)" opacity="0.65"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 48 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="font-size:10px;color:#444;letter-spacing:1px;">48px</div>
+      <div style="width:48px;height:48px;background:#000;border-radius:8px;display:flex;align-items:center;justify-content:center;">
+        <svg width="36" height="36" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="18" width="38" height="164" fill="#E50914" rx="1"/>
+          <path d="M 66 18 C 130 18,165 45,165 100 C 165 155,130 182,66 182 L 66 148 C 112 148,130 130,130 100 C 130 70,112 52,66 52 Z" fill="#E50914"/>
+          <path d="M 66 18 L 80 30 L 80 170 L 66 182 Z" fill="#6B0000" opacity="0.8"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 32 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="font-size:10px;color:#444;letter-spacing:1px;">32px</div>
+      <div style="width:32px;height:32px;background:#000;border-radius:5px;display:flex;align-items:center;justify-content:center;">
+        <svg width="24" height="24" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="18" width="38" height="164" fill="#E50914"/>
+          <path d="M 66 18 C 130 18,165 45,165 100 C 165 155,130 182,66 182 L 66 148 C 112 148,130 130,130 100 C 130 70,112 52,66 52 Z" fill="#E50914"/>
+          <path d="M 66 18 L 80 30 L 80 170 L 66 182 Z" fill="#6B0000" opacity="0.8"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- 16 -->
+    <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+      <div style="font-size:10px;color:#444;letter-spacing:1px;">16px</div>
+      <div style="width:16px;height:16px;background:#E50914;border-radius:3px;display:flex;align-items:center;justify-content:center;">
+        <svg width="12" height="12" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <rect x="28" y="18" width="38" height="164" fill="#fff"/>
+          <path d="M 66 18 C 130 18,165 45,165 100 C 165 155,130 182,66 182 L 66 148 C 112 148,130 130,130 100 C 130 70,112 52,66 52 Z" fill="#fff"/>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══ 4. OGP Image preview ══ -->
+<div class="section">
+  <div class="label">OGP / Social preview — 1200×630</div>
+  <div class="ogp">
+    <!-- subtle vignette -->
+    <div style="position:absolute;inset:0;background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.7) 100%);z-index:1;"></div>
+
+    <svg width="520" height="200" viewBox="0 0 520 200" xmlns="http://www.w3.org/2000/svg" style="position:relative;z-index:2;">
+      <defs>
+        <linearGradient id="ogGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FF1F1F"/>
+          <stop offset="50%" stop-color="#E50914"/>
+          <stop offset="100%" stop-color="#B00610"/>
+        </linearGradient>
+        <!-- D mark small -->
+        <linearGradient id="ogDFront" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#E50914"/><stop offset="100%" stop-color="#CC0812"/></linearGradient>
+        <linearGradient id="ogDShadow" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7A0000"/><stop offset="100%" stop-color="#3D0000"/></linearGradient>
+      </defs>
+
+      <!-- D icon left -->
+      <g transform="translate(18, 20) scale(0.77)">
+        <rect x="28" y="18" width="38" height="164" fill="url(#ogDFront)" rx="2"/>
+        <path d="M 66 18 C 130 18,165 45,165 100 C 165 155,130 182,66 182 L 66 148 C 112 148,130 130,130 100 C 130 70,112 52,66 52 Z" fill="url(#ogDFront)"/>
+        <path d="M 66 18 L 80 30 L 80 170 L 66 182 Z" fill="url(#ogDShadow)" opacity="0.7"/>
+      </g>
+
+      <!-- DUOFLIX text -->
+      <text
+        x="152" y="138"
+        font-family="'Arial Black','Impact','Haettenschweiler',Arial,sans-serif"
+        font-size="118"
+        font-weight="900"
+        fill="url(#ogGrad)"
+        letter-spacing="3"
+      >DUOFLIX</text>
+    </svg>
+  </div>
+</div>
+
+<!-- ══ 5. Nền trắng ══ -->
+<div class="section">
+  <div class="label">Phiên bản nền trắng</div>
+  <div style="background:#fff;border-radius:8px;padding:32px 40px;display:flex;align-items:center;gap:20px;width:fit-content;">
+    <!-- D icon -->
+    <svg width="52" height="64" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wdFront" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#E50914"/><stop offset="100%" stop-color="#CC0812"/></linearGradient>
+        <linearGradient id="wdShadow" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#8B0000"/><stop offset="100%" stop-color="#500000"/></linearGradient>
+      </defs>
+      <rect x="28" y="18" width="38" height="164" fill="url(#wdFront)" rx="2"/>
+      <path d="M 66 18 C 130 18,165 45,165 100 C 165 155,130 182,66 182 L 66 148 C 112 148,130 130,130 100 C 130 70,112 52,66 52 Z" fill="url(#wdFront)"/>
+      <path d="M 66 18 L 80 30 L 80 170 L 66 182 Z" fill="url(#wdShadow)" opacity="0.55"/>
+    </svg>
+    <!-- wordmark -->
+    <svg width="280" height="58" viewBox="0 0 580 110" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="ww" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#FF1A1A"/>
+          <stop offset="50%" stop-color="#E50914"/>
+          <stop offset="100%" stop-color="#A00008"/>
+        </linearGradient>
+      </defs>
+      <text x="290" y="88" font-family="'Arial Black','Impact',Arial,sans-serif" font-size="96" font-weight="900" text-anchor="middle" fill="url(#ww)" letter-spacing="4">DUOFLIX</text>
+    </svg>
+  </div>
+</div>
+
+</body>
+</html>

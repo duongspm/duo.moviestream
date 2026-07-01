@@ -3,10 +3,10 @@
   "short_name": "Duoflix",
   "description": "Xem phim online Vietsub, Thuyết Minh, Lồng Tiếng chất lượng cao - cập nhật liên tục",
   "icons": [
-    { "src": "/favicon-96x96.png", "sizes": "96x96", "type": "image/png" },
-    { "src": "/favicon-192x192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/favicon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "/favicon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    { "src": "/assets/favicon-96x96.png", "sizes": "96x96", "type": "image/png" },
+    { "src": "/assets/favicon-192x192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "/assets/favicon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/assets/favicon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
   "theme_color": "#e0263f",
   "background_color": "#060608",

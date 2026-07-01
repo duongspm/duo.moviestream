@@ -162,4 +162,12 @@
 .visitor-counter img {
   height: 18px;
   vertical-align: middle;
+  margin-left: -51px;
+}
+.visitor-counter span{
+  padding-right: 10px;
+  background: var(--bg-base);
+  position: relative;
+  z-index: 2;
+  border-radius: 0 4px 4px 0;
 }

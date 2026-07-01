@@ -42,7 +42,7 @@ const FavoritesPage = {
         <div class="movie-card favorite-card" data-slug="${m.slug}">
           <a href="detail.html?slug=${encodeURIComponent(m.slug)}">
             <div class="card-poster-wrap">
-              <img class="card-poster" data-src="${m.posterUrl}" src="" alt="${Utils.escapeHtml(m.name)}" loading="lazy" />
+              <img class="card-poster" data-src="${m.thumbUrl}" src="" alt="${Utils.escapeHtml(m.name)}" loading="lazy" />
               <div class="card-overlay">
                 <button class="card-play-btn" aria-label="Xem chi tiết">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
@@ -91,7 +91,7 @@ const FavoritesPage = {
         <div class="movie-card watching-card" data-slug="${entry.slug}">
           <a href="watch.html?slug=${encodeURIComponent(entry.slug)}&server=${entry.serverIndex ?? 0}&ep=${encodeURIComponent(entry.episodeSlug || "")}">
             <div class="card-poster-wrap">
-              <img class="card-poster" data-src="${entry.posterUrl}" src="" alt="${Utils.escapeHtml(entry.name)}" loading="lazy" />
+              <img class="card-poster" data-src="${entry.thumbUrl}" src="" alt="${Utils.escapeHtml(entry.name)}" loading="lazy" />
               <div class="card-overlay">
                 <button class="card-play-btn" aria-label="Tiếp tục xem">
                   <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>

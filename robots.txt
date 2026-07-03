@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://duo-moviestream.vercel.app/sitemap.xml
+Sitemap: https://duo-flix.vercel.app/sitemap.xml

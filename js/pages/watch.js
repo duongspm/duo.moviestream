@@ -185,12 +185,23 @@ const WatchPage = {
           )
           .join("")}
       </div>
+      <div class="server-switch" id="server-switch">
+        ${m.servers.map((s, i) =>
+          `<button class="${i === this.serverIndex ? "active" : ""}" data-server="${i}"
+            ${!s.items.length ? "disabled" : ""}>${Utils.escapeHtml(s.serverName)}</button>`
+        ).join("")}
+      </div>
+
+      <button class="btn btn-outline" id="retry-load-btn" style="font-size:var(--fs-tiny);padding:0.35rem 0.7rem;" title="Tải lại tập phim hiện tại nếu bị lag/đứng hình">
+        🔄 Tải lại thử
+      </button>
+
       <label class="autonext-toggle">
-        Tự động chuyển tập
+        Tự động chuyển tập nhé
         <span class="switch ${this.autoNextEnabled ? "on" : ""}" id="autonext-switch"></span>
       </label>
       <span class="keyboard-hint" title="Space: Play/Pause • ←/→: Lùi/Tiến 10s • ↑/↓: Âm lượng • M: Tắt tiếng • F: Toàn màn hình • N: Tập kế">
-        ⌨️ Phím tắt
+        ⌨️ Phím tắt nè
       </span>`;
 
     toolbar.querySelectorAll("#server-switch button:not(:disabled)").forEach((btn) => {
@@ -211,6 +222,20 @@ const WatchPage = {
       this.autoNextEnabled = !this.autoNextEnabled;
       e.target.classList.toggle("on", this.autoNextEnabled);
       if (!this.autoNextEnabled) this._clearAutoNextOverlay();
+    });
+    document.getElementById("retry-load-btn")?.addEventListener("click", () => {
+      if (playerService.hls) {
+        // Nếu đang dùng HLS.js: tua lại 3 giây rồi load lại segment từ đó
+        // thay vì reset hoàn toàn (giữ nguyên vị trí xem, ít gián đoạn hơn)
+        const currentTime = playerService.video?.currentTime || 0;
+        playerService.hls.stopLoad();
+        playerService.hls.startLoad(Math.max(0, currentTime - 3));
+        Utils.toast("Đang tải lại từ vị trí hiện tại nè...", "info", 2000);
+      } else {
+        // Đang dùng iframe: chỉ có thể reload hoàn toàn
+        this._loadEpisode();
+        Utils.toast("Đang tải lại thử...", "info", 2000);
+      }
     });
   },
 

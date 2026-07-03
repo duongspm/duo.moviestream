@@ -107,18 +107,96 @@ class PlayerService {
         Utils.toast("Không tải được nguồn HLS, đang chuyển sang trình phát dự phòng...", "info");
         resolve(false);
       };
-
+      //========= bắt đầu code cũ =========
+      // if (window.Hls && Hls.isSupported()) {
+      //   this.hls = new Hls({ maxBufferLength: 30 });
+      //   this.hls.loadSource(src);
+      //   this.hls.attachMedia(video);
+      //   this.hls.on(Hls.Events.ERROR, (_, data) => {
+      //     if (data.fatal) {
+      //       this.hls.destroy();
+      //       handleFatalError();
+      //     }
+      //   });
+      // } 
+      //========= hết code cũ =========
+      //========= code mới =========
       if (window.Hls && Hls.isSupported()) {
-        this.hls = new Hls({ maxBufferLength: 30 });
+        this.hls = new Hls({
+          // ---------- Buffer: tăng lên để tích trữ sẵn nhiều segment hơn,
+          // giảm hiện tượng "xem 10 giây rồi đứng lại chờ load" ----------
+          maxBufferLength: 60,          // giây video tích sẵn trong buffer (mặc định 30)
+          maxMaxBufferLength: 120,      // trần tối đa buffer cho phép (mặc định 600, nhưng để 120 tránh ngốn RAM)
+          maxBufferSize: 80 * 1024 * 1024, // 80MB RAM tối đa cho buffer (mặc định 60MB)
+          maxBufferHole: 0.5,           // khoảng trống tối đa giữa 2 segment được coi là "ok" (giây)
+
+          // ---------- Retry: tự thử lại khi segment bị lỗi/timeout,
+          // thay vì báo lỗi ngay lập tức ----------
+          manifestLoadingMaxRetry: 4,        // thử lại playlist m3u8 tối đa 4 lần
+          manifestLoadingRetryDelay: 1000,   // chờ 1 giây giữa mỗi lần retry
+          levelLoadingMaxRetry: 4,           // thử lại level (chất lượng) tối đa 4 lần
+          levelLoadingRetryDelay: 1000,
+          fragLoadingMaxRetry: 6,            // thử lại từng segment video tối đa 6 lần
+          fragLoadingRetryDelay: 500,        // chờ 0.5 giây (ngắn hơn vì segment nhỏ)
+          fragLoadingMaxRetryTimeout: 4000,  // timeout tối đa mỗi lần retry segment
+
+          // ---------- Timeout: phát hiện CDN chậm sớm hơn để retry ----------
+          fragLoadingTimeOut: 20000,         // timeout 20 giây cho mỗi segment (mặc định 20000, giữ nguyên)
+          manifestLoadingTimeOut: 15000,     // timeout 15 giây cho playlist
+
+          // ---------- Âm thanh: ưu tiên giữ audio sync khi buffer bị gián đoạn ----------
+          enableSoftwareAES: true,  // giải mã AES bằng JS thay vì hardware, ổn định hơn
+                                    // trên các CDN mã hoá stream (tránh méo tiếng khi
+                                    // hardware decryptor bị desynced)
+
+          // ---------- Chất lượng: bắt đầu ở chất lượng thấp rồi tự nâng lên,
+          // thay vì bắt đầu cao nhất rồi tụt xuống gây giật ----------
+          startLevel: -1,           // -1 = HLS.js tự chọn level phù hợp bandwidth hiện tại
+          abrEwmaDefaultEstimate: 500000, // ước tính bandwidth ban đầu: 500kbps (an toàn)
+        });
+
         this.hls.loadSource(src);
         this.hls.attachMedia(video);
+
         this.hls.on(Hls.Events.ERROR, (_, data) => {
+          console.warn("HLS error:", data.type, data.details, "fatal:", data.fatal);
+
           if (data.fatal) {
-            this.hls.destroy();
-            handleFatalError();
+            switch (data.type) {
+              case Hls.ErrorTypes.NETWORK_ERROR:
+                // Lỗi mạng (CDN chậm, timeout) → thử recover thay vì destroy ngay
+                console.warn("HLS network error, thử recover...");
+                this.hls.startLoad();
+                // Nếu recover thất bại liên tục (HLS.js sẽ gọi lại ERROR với fatal)
+                // thì mới fallback sang iframe ở lần gọi tiếp theo
+                break;
+
+              case Hls.ErrorTypes.MEDIA_ERROR:
+                // Lỗi giải mã media (méo tiếng, video giật) → recoverMediaError
+                // tự reset bộ giải mã, thường giải quyết được méo audio
+                console.warn("HLS media error, thử recoverMediaError...");
+                this.hls.recoverMediaError();
+                break;
+
+              default:
+                // Lỗi không recover được → fallback iframe
+                this.hls.destroy();
+                handleFatalError();
+                break;
+            }
           }
         });
-      } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+
+        // Hiện toast khi buffer thấp (sắp bị đứng hình) để người dùng biết
+        // là đang load thêm chứ không phải trình phát bị treo
+        this.hls.on(Hls.Events.ERROR, (_, data) => {
+          if (!data.fatal && data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR) {
+            Utils.toast("Đang tải thêm dữ liệu, vui lòng chờ xíu nhé...", "info", 2000);
+          }
+        });
+      }
+      //========= hết code mới =========
+      else if (video.canPlayType("application/vnd.apple.mpegurl")) {
         // Safari hỗ trợ HLS gốc
         video.src = src;
       } else {

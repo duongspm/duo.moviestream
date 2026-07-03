@@ -158,6 +158,7 @@
   max-height: 280px;
   overflow-y: auto;
   padding-right: 0.3rem;
+  padding-top: 0.5em;
 }
 .episode-item {
   text-align: center;

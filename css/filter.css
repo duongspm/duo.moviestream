@@ -90,6 +90,10 @@
 .page-ellipsis { color: var(--text-tertiary); padding: 0 0.3rem; }
 
 @media (max-width: 600px) {
+  .page-btn {
+    min-width: 30px;
+    height: 30px;
+  }
   .filter-bar { gap: 0.4rem; }
   .filter-select select { min-width: 100px; font-size: var(--fs-tiny); padding: 0.5rem 1.8rem 0.5rem 0.7rem; }
 }

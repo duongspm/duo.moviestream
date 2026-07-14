@@ -112,7 +112,7 @@ const DetailPage = {
             <span>${Utils.escapeHtml(m.episodeCurrent || "")}</span>
           </div>
 
-          <p class="detail-desc">${Utils.escapeHtml(m.content || "Nội dung đang được cập nhật.")}</p>
+          <p class="detail-desc">${Utils.escapeHtml(stripHtml(m.content) || "Nội dung đang được cập nhật.")}</p>
 
           <div class="detail-credit">
             <div><b>Quốc gia</b><span>${(m.country || []).map((c) => c.name).join(", ") || "Đang cập nhật"}</span></div>
@@ -139,6 +139,48 @@ const DetailPage = {
       </div>`;
 
     this._bindActionButtons();
+    
+    function stripHtml(htmlString) {
+      if (!htmlString || typeof htmlString !== 'string') {
+        return '';
+      }
+
+      let cleanText = htmlString;
+
+      // Bước 1: Loại bỏ triệt để các thẻ <script>, <style> và NỘI DUNG bên trong chúng
+      cleanText = cleanText.replace(/<script[^>]*>([\s\S]*?)<\/script>/gi, '');
+      cleanText = cleanText.replace(/<style[^>]*>([\s\S]*?)<\/style>/gi, '');
+
+      // Bước 2: Loại bỏ toàn bộ các thẻ HTML còn lại
+      // Regex này xử lý được cả các thẻ có thuộc tính phức tạp chứa dấu ngoặc kép hoặc xuống dòng
+      cleanText = cleanText.replace(/<[^>]*>/g, '');
+
+      // Bước 3: Giải mã các ký tự HTML Entities phổ biến về dạng ký tự thường
+      const htmlEntities = {
+        '&nbsp;': ' ',
+        '&lt;': '<',
+        '&gt;': '>',
+        '&amp;': '&',
+        '&quot;': '"',
+        '&#39;': "'",
+        '&cent;': '¢',
+        '&pound;': '£',
+        '&yen;': '¥',
+        '&euro;': '€',
+        '&copy;': '©',
+        '&reg;': '®'
+      };
+
+      // Thay thế các entities tìm thấy bằng ký tự thực tế
+      cleanText = cleanText.replace(/&[a-z0-9#]+;/gi, (match) => {
+        return htmlEntities[match.toLowerCase()] || match;
+      });
+
+      // Bước 4: Dọn dẹp khoảng trắng thừa và xuống dòng liên tục cho đẹp mắt
+      return cleanText
+        .replace(/\s+/g, ' ') // Gộp nhiều khoảng trắng/xuống dòng liên tiếp thành 1 khoảng trắng
+        .trim();             // Cắt khoảng trắng thừa ở 2 đầu
+    }
   },
 
   _bindActionButtons() {

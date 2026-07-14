@@ -262,3 +262,61 @@
   .watch-title-block, .player-toolbar, .watch-sidebar { margin: var(--space-sm); }
   .player-toolbar { margin-top: var(--space-sm); }
 }
+/* ============================================================
+   VIDEO OVERLAY TEXT — watermark/greeting hiển thị đè lên video
+   ============================================================ */
+  .player-wrap::before{
+    content: "DUOFLIX";
+    position: absolute;
+    z-index: 2; /* trên video, dưới loading/error */
+    pointer-events: none; /* không chặn click điều khiển player */
+    font-family: var(--font-display);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.55);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    letter-spacing: 0.04em;
+    user-select: none;
+    animation: overlayFadeIn 1.2s ease forwards;
+    top: 0.8rem;
+    left: 1rem;
+  }
+  .player-overlay-text {
+    position: absolute;
+    z-index: 999; /* trên video, dưới loading/error */
+    pointer-events: none; /* không chặn click điều khiển player */
+    font-family: var(--font-display);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.55);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+    letter-spacing: 0.04em;
+    user-select: none;
+    animation: overlayFadeIn 1.2s ease forwards;
+  }
+
+  @keyframes overlayFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+  }
+
+  /* Vị trí: góc trên-trái */
+  .player-overlay-text.top-left {
+    top: 0.8rem;
+    left: 1rem;
+  }
+  /* Góc trên-phải */
+  .player-overlay-text.top-right {
+    top: 0.8rem;
+    right: 1rem;
+  }
+  /* Góc dưới-trái */
+  .player-overlay-text.bottom-left {
+    bottom: 3rem; /* tránh đè lên thanh controls */
+    left: 1rem;
+  }
+  /* Góc dưới-phải */
+  .player-overlay-text.bottom-right {
+    bottom: 3rem;
+    right: 1rem;
+  }

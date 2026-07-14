@@ -34,10 +34,19 @@ class MovieService {
   /** Tối ưu ảnh sang webp qua proxy của nguồn (nếu bật trong config) */
   optimizeImage(url) {
     if (!url) return "";
-    if (!CONFIG.API.ENABLE_IMAGE_OPTIMIZE) return url;
-    // Một số ảnh đã là full URL, một số chỉ là path tương đối -> chuẩn hoá trước
-    const fullUrl = url.startsWith("http") ? url : `https://phimimg.com/${url}`;
+
+    // Chuẩn hoá URL: một số response trả về path tương đối không có domain
+    let fullUrl = url;
+    if (!url.startsWith("http")) {
+      // Bỏ dấu "/" thừa ở đầu nếu có
+      const cleanPath = url.startsWith("/") ? url.slice(1) : url;
+      fullUrl = `https://phimimg.com/${cleanPath}`;
+    }
+
+    if (!CONFIG.API.ENABLE_IMAGE_OPTIMIZE) return fullUrl;
     return `${CONFIG.API.IMAGE_OPTIMIZE_URL}${encodeURIComponent(fullUrl)}`;
+    // return `/api/image-proxy?url=${encodeURIComponent(fullUrl)}`;
+    // không load được ảnh sửa dòng này
   }
 
   // ==========================================================

@@ -27,7 +27,7 @@ const CONFIG = {
     IMAGE_OPTIMIZE_URL: "https://phimapi.com/image.php?url=",
 
     // Có bật tối ưu ảnh sang webp hay không
-    ENABLE_IMAGE_OPTIMIZE: true,
+    ENABLE_IMAGE_OPTIMIZE: false,
 
     // Danh sách endpoint - KHÔNG cần đổi nếu vẫn dùng chuẩn KKPhim/Ophim
     ENDPOINTS: {

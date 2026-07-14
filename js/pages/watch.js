@@ -178,20 +178,13 @@ const WatchPage = {
     const toolbar = document.getElementById("player-toolbar");
     toolbar.innerHTML = `
       <div class="server-switch" id="server-switch">
-        ${m.servers
-          .map(
-            (s, i) =>
-              `<button class="${i === this.serverIndex ? "active" : ""}" data-server="${i}" ${!s.items.length ? "disabled title='Server không có dữ liệu'" : ""}>${Utils.escapeHtml(s.serverName)}</button>`
+        ${m.servers.map((s, i) =>
+            `<button class="${i === this.serverIndex ? "active" : ""}" data-server="${i}" 
+            ${!s.items.length ? "disabled title='Server không có dữ liệu'" : ""}>${Utils.escapeHtml(s.serverName)}</button>`
           )
           .join("")}
       </div>
-      <div class="server-switch" id="server-switch">
-        ${m.servers.map((s, i) =>
-          `<button class="${i === this.serverIndex ? "active" : ""}" data-server="${i}"
-            ${!s.items.length ? "disabled" : ""}>${Utils.escapeHtml(s.serverName)}</button>`
-        ).join("")}
-      </div>
-
+      
       <button class="btn btn-outline" id="retry-load-btn" style="font-size:var(--fs-tiny);padding:0.35rem 0.7rem;" title="Tải lại tập phim hiện tại nếu bị lag/đứng hình">
         🔄 Tải lại thử
       </button>
@@ -200,6 +193,12 @@ const WatchPage = {
         Tự động chuyển tập nhé
         <span class="switch ${this.autoNextEnabled ? "on" : ""}" id="autonext-switch"></span>
       </label>
+
+      <!-- Thêm nút này ngay sau label autonext-toggle -->
+      <button class="btn-fix-audio" id="fix-audio-btn" title="Bấm khi tiếng bị méo/vỡ">
+        🔧 Sửa tiếng
+      </button>
+      
       <span class="keyboard-hint" title="Space: Play/Pause • ←/→: Lùi/Tiến 10s • ↑/↓: Âm lượng • M: Tắt tiếng • F: Toàn màn hình • N: Tập kế">
         ⌨️ Phím tắt nè
       </span>`;
@@ -223,6 +222,7 @@ const WatchPage = {
       e.target.classList.toggle("on", this.autoNextEnabled);
       if (!this.autoNextEnabled) this._clearAutoNextOverlay();
     });
+
     document.getElementById("retry-load-btn")?.addEventListener("click", () => {
       if (playerService.hls) {
         // Nếu đang dùng HLS.js: tua lại 3 giây rồi load lại segment từ đó
@@ -235,6 +235,30 @@ const WatchPage = {
         // Đang dùng iframe: chỉ có thể reload hoàn toàn
         this._loadEpisode();
         Utils.toast("Đang tải lại thử...", "info", 2000);
+      }
+    });
+    document.getElementById("fix-audio-btn")?.addEventListener("click", () => {
+      if (playerService.hls && playerService.video) {
+        // Lưu vị trí đang xem
+        const currentTime = playerService.video.currentTime;
+
+        // recoverMediaError reset hoàn toàn bộ giải mã audio
+        // mà không phải load lại toàn bộ video từ đầu
+        playerService.hls.recoverMediaError();
+
+        // Sau 300ms (đủ để reset xong), tua về đúng vị trí cũ
+        setTimeout(() => {
+          if (playerService.video) {
+            playerService.video.currentTime = currentTime;
+            playerService.video.play().catch(() => {});
+          }
+        }, 300);
+
+        Utils.toast("Đã reset âm thanh, tiếp tục xem...", "success", 2000);
+      } else {
+        // Đang dùng iframe: chỉ có thể tải lại hoàn toàn
+        this._loadEpisode();
+        Utils.toast("Đang tải lại...", "info", 2000);
       }
     });
   },

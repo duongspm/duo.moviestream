@@ -320,3 +320,17 @@
     bottom: 3rem;
     right: 1rem;
   }
+
+  .btn-fix-audio {
+    font-size: var(--fs-tiny);
+    font-weight: 700;
+    padding: 0.35rem 0.75rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-subtle);
+    color: var(--text-secondary);
+    transition: var(--transition-fast);
+  }
+  .btn-fix-audio:hover {
+    border-color: var(--accent-gold);
+    color: var(--accent-gold);
+  }
